@@ -97,7 +97,7 @@ TString getName (TString structure, int layer, TString geometry);
 void scalebylumi(TGraphErrors *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
 //old /afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv
 //new /afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv
-double scalerunbylumi(int run, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv");
+double getintegratedlumiuptorun(int run, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv");
 void PixelUpdateLines(TCanvas *c, bool showlumi=false, vector<int>pixelupdateruns={314881, 316758, 317527, 318228, 320377});
 void PlotDMRTrends(string label="v11", string type="MB", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, bool showlumi=false);
 void compileDMRTrends(string label="v11", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, string type="MB", bool hideproblems=false);
@@ -284,7 +284,7 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
                     make_pair(&Geometry::MuMinus, &Geometry::SigmaMinus), make_pair(&Geometry::DeltaMu, &Geometry::SigmaDeltaMu) };
                 vector<pair<TString,TString>> variablepairs {make_pair("mu", "sigma"), make_pair("muplus", "sigmaplus"), make_pair("muminus", "sigmaminus"), make_pair("deltamu", "sigmadeltamu") };
                 vector<float> emptyvec;
-                for(size_t i=0; i < n; i++)emptyvec.push_back(0.);
+                for(size_t i=0; i < runs.size(); i++)emptyvec.push_back(0.5);
                 for(size_t iVar=0; iVar < variablepairs.size(); iVar++){
                     Trend meantrend=trendspair.at(iVar).first;
                     Trend sigmatrend=trendspair.at(iVar).second;
@@ -305,9 +305,10 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
 void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	vector<TPaveText*> labels;
 	double lastlumi=0.;
+	c->cd();
 	for(int pixelupdaterun : pixelupdateruns){
 	       double lumi=0.;
-	       if(showlumi)lumi=scalerunbylumi(pixelupdaterun);
+	       if(showlumi)lumi=getintegratedlumiuptorun(pixelupdaterun);
 	       else lumi=pixelupdaterun;
 	       TLine *line = new TLine (lumi,c->GetUymin(),lumi,c->GetUymax());
 	       line->SetLineColor(kRed);
@@ -333,7 +334,7 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	       double _sx;
 	       _sx = rx*(lumi-rx1)+x1ndc;
 	       bool tooclose = false;
-	       if((lumi-lastlumi)< showlumi ? 5000 : 5 &&lastlumi!=0)tooclose=true;
+	       if( ((lumi-lastlumi) < (showlumi ? 5 : 1000)) && lastlumi!=0 )tooclose=true;
 	       TPaveText *box= new TPaveText(_sx+0.001,0.85-tooclose*0.05,_sx+0.08,0.89-tooclose*0.05,"blNDC");
 	       TText *textRun = box->AddText(Form("%i",int(pixelupdaterun)));
 	       textRun->SetTextSize(0.025);
@@ -342,15 +343,14 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	}
 	//Drawing in a separate loop to ensure that the labels are drawn on top of the lines
 	for(auto label: labels){
-	       labels->Draw("same");
+	       label->Draw("same");
 	}
 	c->Update();
 }
 
 
-double scalerunbylumi(int run, double min, string scalefile){
+double getintegratedlumiuptorun(int run, double min, string scalefile){
     int unitscale=pow(10,3);
-
 
     TGraph * scale = new TGraph(scalefile.c_str());
     int Nscale=scale->GetN();
@@ -362,59 +362,102 @@ double scalerunbylumi(int run, double min, string scalefile){
     int index=-1;
     for(int j=0;j<Nscale;j++){
         lumi+=yscale[j];
-        if(run>=xscale[j]){
+        if(run==xscale[j]){
             index=j;
             continue;
-        }
+        }else if(run>xscale[j]){
+	  //cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl;
+	      index=j-1;
+	      continue;
+	}
     }
     lumi=min;  
-    for(int j=0;j<=index;j++)lumi+=yscale[j]/unitscale;
-
+    for(int j=0;j<index;j++)lumi+=yscale[j]/unitscale;
 
     return lumi;
 
 }
+/*! \fn scalebylumi
+ *  \brief Scale X-axis of the TGraph and the error on that axis according to the integrated luminosity.
+ */
+///TO FIX: currently the error on the x axis result in a segmentation fault:
+/*
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00007f35ff7ab89e in waitpid () from /lib64/libc.so.6
+#1  0x00007f35ff73d4e9 in do_system () from /lib64/libc.so.6
+#2  0x00007f3600ce4b01 in TUnixSystem::StackTrace() () from /cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw-patch/CMSSW_10_4_0_patch1/external/slc6_amd64_gcc700/lib/libCore.so
+#3  0x00007f3600ce714c in TUnixSystem::DispatchSignals(ESignals) () from /cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw-patch/CMSSW_10_4_0_patch1/external/slc6_amd64_gcc700/lib/libCore.so
+#4  <signal handler called>
+#5  0x000000000040ccce in scalebylumi (g=0x5fb2df0, min=0, scalefile=...) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:416
+#6  0x00000000004120e1 in PlotDMRTrends (label=..., type=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, pixelupdate=true, showlumi=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:479
+#7  0x0000000000413b81 in DMRtrends (label=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, type=..., pixelupdate=true, showlumi=true, hideproblems=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:181
+#8  0x000000000040c1a2 in main (argc=<optimized out>, argv=<optimized out>) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:556
+===========================================================
 
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum http://root.cern.ch/forum.
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at http://root.cern.ch/bugs. Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x000000000040ccce in scalebylumi (g=0x5fb2df0, min=0, scalefile=...) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:416
+#6  0x00000000004120e1 in PlotDMRTrends (label=..., type=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, pixelupdate=true, showlumi=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:479
+#7  0x0000000000413b81 in DMRtrends (label=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, type=..., pixelupdate=true, showlumi=true, hideproblems=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:181
+#8  0x000000000040c1a2 in main (argc=<optimized out>, argv=<optimized out>) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:556
+===========================================================
+*/
 void scalebylumi(TGraphErrors *g, double min, string scalefile){ 
-    int N=g->GetN();
-    double *x=g->GetX();
-    int unitscale=pow(10,3);
+    float unitscale=pow(10,3);
 
+    size_t N=g->GetN();
+    double *x=g->GetX();
+    //double *xerr=g->GetEX();
 
     TGraph * scale = new TGraph(scalefile.c_str());
-    int Nscale=scale->GetN();
+    size_t Nscale=scale->GetN();
     double *xscale=scale->GetX();
     double *yscale=scale->GetY();
 
-
-    int i=0;
+    size_t i=0;
     while(i<N){
-        double lumi=min;
-        int index=-1;
-        for(int j=0;j<Nscale;j++){
-            lumi+=yscale[j];
-            if(x[i]>=xscale[j]){
+        size_t index=-1;
+        for(size_t j=0;j<Nscale;j++){
+            if(x[i]==xscale[j]){
                 index=j;
                 continue;
-            }
+            }else if(x[i]>xscale[j]){
+	      //	      cout << "WARNING: IOV number " << x[i] << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
+	      index=j-1;
+	      continue;
+	    }
         }
         if(yscale[index]==0){
             N=N-1;
             g->RemovePoint(i);
         }else{
-            x[i]=min;
-            for(int j=0;j<=index;j++)x[i]+=yscale[j]/unitscale;
-            //x[i]=lumi/unitscale;
+	    x[i]=min;
+            for(size_t j=0;j<index;j++)x[i]+=yscale[j]/unitscale;
+	    x[i]+=yscale[index]/(unitscale*2.);
+	    //xerr[i]=(double)yscale[index]/(unitscale*2.);
+	      //double yerr=g->GetErrorY(i);
+	      //g->SetPointError(i,yscale[index]/(2.*unitscale),yerr);
             i=i+1;
         }
 
     } 
+    /*
     double lumi=min;
-    for(int j=0;j<Nscale;j++){
+    for(size_t j=0;j<Nscale;j++){
         lumi+=yscale[j]/unitscale;
 
     }
     cout << "total lumi: " << lumi << endl;
+    */
     g->GetHistogram()->Delete(); 
     g->SetHistogram(0); 
 }
@@ -460,12 +503,12 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                       }*/ 
                     g->SetLineColor(*colour);
                     g->SetMarkerColor(*colour);
-                    g->SetMarkerStyle(20);
                     if(i>=8){
                         g->SetLineWidth(2);
                         g->SetFillColor(*colour);
                         g->SetFillStyle(3350+i-8);
-                    }
+                    }else g->SetMarkerStyle(20);
+		    scalebylumi(g);
                     if(i<8) mg->Add(g,"PL");
                     else mg->Add(g,"3L");
                     if(g->GetHistogram()->GetMaximum() > max) max = g->GetHistogram()->GetMaximum();
@@ -488,25 +531,25 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                 }
                 char* Ytitle= (char *)YaxisNames.at(i).c_str();
                 mg->GetYaxis()->SetTitle(Ytitle);
-
-                mg->GetXaxis()->SetTitle("IOV number");
+                mg->GetXaxis()->SetTitle(showlumi ? "Integrated lumi" : "IOV number");
                 mg->GetYaxis()->SetTitleOffset(.8);
                 mg->GetYaxis()->SetTitleSize(.05);
                 mg->GetXaxis()->SetTitleSize(.04);
                 gStyle->SetOptTitle(0); // TODO
                 c->SetLeftMargin(0.11);
-                char* typetitle=(char *)"";
-                if(type=="MB")typetitle=(char *)"Minimum Bias";
-                if(type=="SM")typetitle=(char *)"Single Muon";
+                TString typetitle="";
+                if(type=="MB")typetitle="Minimum Bias";
+                if(type=="SM")typetitle="Single Muon";
 
                 c->Update();
 
 
                 TLegend *legend = c->BuildLegend();
-                legend->SetHeader(typetitle);
+                legend->SetHeader(typetitle.Data());
                 TLegendEntry *header = (TLegendEntry*)legend->GetListOfPrimitives()->First();
                 header->SetTextSize(.04);
-                legend->SetNColumns(2);
+		int Ngeom=geometries.size();
+                legend->SetNColumns(Ngeom);
                 //legend->SetTextSize(0.05);
                 TString structtitle = "structure: " +structure;
                 if(layer!=0){
@@ -540,11 +583,16 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
 
 int main (int argc, char * argv[]) { 
 
-	if (argc < 8) {
-		cout << "DMRtrends label pathtoDMRs geometries colours outputdirectory type showpixelupdate showlumi hideproblems" << endl;
-		DMRtrends("v3", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/EOY18_v3/", {"GT","Pix ML Strip fixed -high IOV Gran-","Pix+Strip ML -low IOV Gran-"}, {kBlue, kRed, kGreen, kCyan}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", "MB", true, false, false); 
+	if (argc == 1) {
+	        cout << "WARNING: Running function with arguments specified in DMRtrends.cc" << endl << "If you want to specify the arguments from command line run the macro as follows:" << endl << "DMRtrends label pathtoDMRs geometriesandcolourspairs outputdirectory type showpixelupdate showlumi hideproblems" << endl;
+		DMRtrends("v3", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/EOY18_v3/", {"GT","Pix ML Strip fixed -high IOV Gran-","Pix+Strip ML -low IOV Gran-"}, {kBlue, kRed, kGreen, kCyan}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", "MB", true, true, true); 
 		
 		return 0;
+	}
+	else if (argc < 9) {
+		cout << "DMRtrends label pathtoDMRs geometriesandcolourspairs outputdirectory type showpixelupdate showlumi hideproblems" << endl;
+		
+		return 1;
 	}
 
 	TString label = argv[1],
@@ -566,7 +614,6 @@ int main (int argc, char * argv[]) {
 	}
 	DMRtrends(label.Data(),pathtoDMRs.Data(),geometries,colours,outputdirectory.Data(),type.Data(),showpixelupdate,showlumi,hideproblems);
 
-	//DMRtrends("v3", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/EOY18_v3/", {"GT","Pix ML Strip fixed -high IOV Gran-","Pix+Strip ML -low IOV Gran-"}, {kBlue, kRed, kGreen, kCyan}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", "MB", false); 
 	
 	return 0; 
 }
