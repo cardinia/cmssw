@@ -95,6 +95,7 @@ struct Point {
 
 TString getName (TString structure, int layer, TString geometry);
 void scalebylumi(TGraphErrors *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
+void scalebylumi(TGraph *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
 //old /afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv
 //new /afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv
 double getintegratedlumiuptorun(int run, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv");
@@ -381,42 +382,12 @@ double getintegratedlumiuptorun(int run, double min, string scalefile){
  *  \brief Scale X-axis of the TGraph and the error on that axis according to the integrated luminosity.
  */
 ///TO FIX: currently the error on the x axis result in a segmentation fault:
-/*
-===========================================================
-There was a crash.
-This is the entire stack trace of all threads:
-===========================================================
-#0  0x00007f35ff7ab89e in waitpid () from /lib64/libc.so.6
-#1  0x00007f35ff73d4e9 in do_system () from /lib64/libc.so.6
-#2  0x00007f3600ce4b01 in TUnixSystem::StackTrace() () from /cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw-patch/CMSSW_10_4_0_patch1/external/slc6_amd64_gcc700/lib/libCore.so
-#3  0x00007f3600ce714c in TUnixSystem::DispatchSignals(ESignals) () from /cvmfs/cms.cern.ch/slc6_amd64_gcc700/cms/cmssw-patch/CMSSW_10_4_0_patch1/external/slc6_amd64_gcc700/lib/libCore.so
-#4  <signal handler called>
-#5  0x000000000040ccce in scalebylumi (g=0x5fb2df0, min=0, scalefile=...) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:416
-#6  0x00000000004120e1 in PlotDMRTrends (label=..., type=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, pixelupdate=true, showlumi=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:479
-#7  0x0000000000413b81 in DMRtrends (label=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, type=..., pixelupdate=true, showlumi=true, hideproblems=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:181
-#8  0x000000000040c1a2 in main (argc=<optimized out>, argv=<optimized out>) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:556
-===========================================================
 
-
-The lines below might hint at the cause of the crash.
-You may get help by asking at the ROOT forum http://root.cern.ch/forum.
-Only if you are really convinced it is a bug in ROOT then please submit a
-report at http://root.cern.ch/bugs. Please post the ENTIRE stack trace
-from above as an attachment in addition to anything else
-that might help us fixing this issue.
-===========================================================
-#5  0x000000000040ccce in scalebylumi (g=0x5fb2df0, min=0, scalefile=...) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:416
-#6  0x00000000004120e1 in PlotDMRTrends (label=..., type=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, pixelupdate=true, showlumi=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:479
-#7  0x0000000000413b81 in DMRtrends (label=..., myValidation=..., geometries=..., colours=..., outputdir=<incomplete type>, type=..., pixelupdate=true, showlumi=true, hideproblems=true) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:181
-#8  0x000000000040c1a2 in main (argc=<optimized out>, argv=<optimized out>) at /afs/cern.ch/work/a/acardini/Alignment/MultiIOV/CMSSW_10_4_0_patch1/src/Alignment/OfflineValidation/bin/DMRtrends.cc:556
-===========================================================
-*/
 void scalebylumi(TGraphErrors *g, double min, string scalefile){ 
     float unitscale=pow(10,3);
 
     size_t N=g->GetN();
-    double *x=g->GetX();
-    //double *xerr=g->GetEX();
+    vector<double> x,y,xerr,yerr;
 
     TGraph * scale = new TGraph(scalefile.c_str());
     size_t Nscale=scale->GetN();
@@ -425,13 +396,15 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
 
     size_t i=0;
     while(i<N){
+        double run,yvalue;
+	g->GetPoint(i,run,yvalue);
         size_t index=-1;
         for(size_t j=0;j<Nscale;j++){
-            if(x[i]==xscale[j]){
+            if(run==xscale[j]){
                 index=j;
                 continue;
-            }else if(x[i]>xscale[j]){
-	      //	      cout << "WARNING: IOV number " << x[i] << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
+            }else if(run>xscale[j]){
+	      //	      cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
 	      index=j-1;
 	      continue;
 	    }
@@ -440,33 +413,94 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
             N=N-1;
             g->RemovePoint(i);
         }else{
-	    x[i]=min;
-            for(size_t j=0;j<index;j++)x[i]+=yscale[j]/unitscale;
-	    x[i]+=yscale[index]/(unitscale*2.);
-	    //xerr[i]=(double)yscale[index]/(unitscale*2.);
-	      //double yerr=g->GetErrorY(i);
-	      //g->SetPointError(i,yscale[index]/(2.*unitscale),yerr);
+	    double xvalue=min;
+            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/unitscale;
+	    x   .push_back(xvalue+yscale[index]/(unitscale*2.));
+	    if(yvalue<=DUMMY){
+	      y.push_back(DUMMY);
+	      yerr.push_back(0.);
+	    }else{
+	      y.push_back(yvalue);
+	      yerr.push_back(g->GetErrorY(i));
+	    }
+	    xerr.push_back(yscale[index]/(unitscale*2.));
             i=i+1;
         }
 
     } 
-    /*
-    double lumi=min;
-    for(size_t j=0;j<Nscale;j++){
-        lumi+=yscale[j]/unitscale;
-
-    }
-    cout << "total lumi: " << lumi << endl;
-    */
     g->GetHistogram()->Delete(); 
     g->SetHistogram(0); 
+    for(size_t i=0;i<N;i++){ g->SetPoint(i, x.at(i),y.at(i)); g->SetPointError(i, xerr.at(i),yerr.at(i));}
+
 }
+
+void scalebylumi(TGraph *g, double min, string scalefile){ 
+    float unitscale=pow(10,3);
+
+    size_t N=g->GetN();
+    vector<double> x,y,xerr,yerr;
+
+    TGraph * scale = new TGraph(scalefile.c_str());
+    size_t Nscale=scale->GetN();
+    double *xscale=scale->GetX();
+    double *yscale=scale->GetY();
+
+    size_t i=0;
+    while(i<N){
+        double run,yvalue;
+	g->GetPoint(i,run,yvalue);
+        size_t index=-1;
+        for(size_t j=0;j<Nscale;j++){
+            if(run==xscale[j]){
+                index=j;
+                continue;
+            }else if(run>xscale[j]){
+	      //	      cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
+	      index=j-1;
+	      continue;
+	    }
+        }
+        if(yscale[index]==0){
+            N=N-1;
+            g->RemovePoint(i);
+        }else{
+	    double xvalue=min;
+            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/unitscale;
+	    x   .push_back(xvalue+yscale[index]/(unitscale*2.));
+	    if(yvalue<=DUMMY){
+	      y.push_back(DUMMY);
+	      //yerr.push_back(0.);
+	    }else{
+	      y.push_back(yvalue);
+	      //yerr.push_back(g->GetErrorY(i));
+	    }
+	    //xerr.push_back(yscale[index]/(unitscale*2.));
+            i=i+1;
+        }
+
+    } 
+    g->GetHistogram()->Delete(); 
+    g->SetHistogram(0); 
+    for(size_t i=0;i<N;i++){
+      Double_t xdouble=x.at(i);
+      Double_t ydouble=y.at(i);
+      //Double_t xerrdouble=xerr.at(i);
+      //Double_t yerrdouble=yerr.at(i);
+      g->SetPoint(i, xdouble,ydouble);
+      //g->SetPointError(i, 0., 0.);
+
+    }
+    //for (size_t i=0;i<N;i++) cout << x.at(i) << " " << y.at(i) << " " << xerr.at(i) << " " << yerr.at(i) << endl; 
+    //for(size_t i=0; i < (size_t)g->GetN(); i++)g->SetPointError(i, 0., 0.);
+
+}
+
 /*! \fn PlotDMRTrends
  *  \brief Plot the DMR trends.
  */
 
 void PlotDMRTrends(string label, string type, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, bool showlumi){
-
+  gErrorIgnoreLevel = kWarning;
     vector<int> pixelupdateruns {314881, 316758, 317527, 318228, 320377};
 
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
@@ -497,18 +531,16 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                 for (string geometry: geometries) {
                     TString name = getName(structure, layer, geometry);
                     TGraphErrors *g = (TGraphErrors*) in->Get(name+"_"+variables.at(i));
-                    /*if (i >=8) {
-                      g->Delete();
-                      TGraphErrors *g = (TGraphErrors*) in->Get(name+"_"+variables.at(i));
-                      }*/ 
-                    g->SetLineColor(*colour);
-                    g->SetMarkerColor(*colour);
                     if(i>=8){
                         g->SetLineWidth(2);
                         g->SetFillColor(*colour);
                         g->SetFillStyle(3350+i-8);
                     }else g->SetMarkerStyle(20);
-		    scalebylumi(g);
+		    vector<vector<double>> vectors; 
+		    if(showlumi&&i<8)scalebylumi((TGraph*)g);
+		    else if(showlumi)scalebylumi(g);
+		    g->SetLineColor(*colour);
+                    g->SetMarkerColor(*colour);
                     if(i<8) mg->Add(g,"PL");
                     else mg->Add(g,"3L");
                     if(g->GetHistogram()->GetMaximum() > max) max = g->GetHistogram()->GetMaximum();
@@ -572,7 +604,7 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                 c->SaveAs(printfile+".pdf");
                 c->SaveAs(printfile+".eps");
                 c->SaveAs(printfile+".png");
-
+		//cout<< "DONE"<<endl;
             }
 
         }
