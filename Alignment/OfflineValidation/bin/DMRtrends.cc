@@ -31,7 +31,7 @@ namespace fs = std::experimental::filesystem;
  */
 #define DUMMY -999.
 /*!
- * \def Scale factor value to have mean and sigmas expressed in micrometers
+ * \def Scale factor value to have mean and sigmas expressed in micrometers. This incidentally is the same factor needed to express luminosity in fb^-1
  */
 #define SFactor 1000.
 
@@ -94,6 +94,8 @@ struct Point {
 ///**************************
 
 TString getName (TString structure, int layer, TString geometry);
+vector<int> runlistfromlumifile(string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
+bool checkrunlist(vector<int> runs);
 void scalebylumi(TGraphErrors *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
 void scalebylumi(TGraph *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
 //old /afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv
@@ -101,7 +103,7 @@ void scalebylumi(TGraph *g, double min=0., string scalefile="/afs/cern.ch/work/h
 double getintegratedlumiuptorun(int run, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv");
 void PixelUpdateLines(TCanvas *c, bool showlumi=false, vector<int>pixelupdateruns={314881, 316758, 317527, 318228, 320377});
 void PlotDMRTrends(string label="v11", string type="MB", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, bool showlumi=false);
-void compileDMRTrends(string label="v11", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, string type="MB", bool hideproblems=false);
+void compileDMRTrends(string label="v11", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, string type="MB", bool showlumi=false, bool hideproblems=false);
 void DMRtrends(string label="v11", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", string type="MB", bool pixelupdate=false, bool showlumi=false, bool hideproblems=false);
 
 /*! \class Geometry
@@ -170,7 +172,42 @@ TString getName (TString structure, int layer, TString geometry){
     return name;
 };
 
+/*! \fn runlistfromlumifile
+ *  \brief Get a vector containing the list of runs for which the luminosity is known.
+ */
 
+vector<int> runlistfromlumifile(string scalefile){
+    TGraph * scale = new TGraph(scalefile.c_str());
+    double *xscale = scale->GetX();
+    size_t N = scale->GetN();
+    vector<int> runs;
+    for(size_t i=0;i<N;i++)runs.push_back(xscale[i]);
+    return runs;
+} 
+
+/*! \fn checkrunlist
+ *  \brief Get a vector containing the list of runs for which the luminosity is known.
+ */
+
+bool checkrunlist(vector<int> runs){
+    vector<int> runlist = runlistfromlumifile();
+    vector<int> missingruns;
+    bool problemfound=false;
+    for(int run : runs){
+      if(find(runlist.begin(),runlist.end(),run)==runlist.end()){
+	problemfound=true;
+	missingruns.push_back(run);
+      }
+    }
+    std::sort(missingruns.begin(),missingruns.end());
+    if(problemfound){
+      cout << "WARNING: some runs are missing in the run/luminosity txt file" << endl << "List of missing runs:" << endl;
+      for (int missingrun : missingruns) cout << to_string(missingrun) << " ";
+      cout << endl;
+    }
+    return problemfound;
+
+} 
 
 /*! \fn DMRtrends
  *  \brief Create and plot the DMR trends.
@@ -178,7 +215,7 @@ TString getName (TString structure, int layer, TString geometry){
 
 void DMRtrends(string label, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, string type, bool pixelupdate, bool showlumi, bool hideproblems){
 
-  compileDMRTrends(label, myValidation, geometries, type, hideproblems);
+  compileDMRTrends(label, myValidation, geometries, type, showlumi, hideproblems);
   PlotDMRTrends(label, type, myValidation, geometries, colours, outputdir, pixelupdate, showlumi);
 
 };
@@ -187,7 +224,7 @@ void DMRtrends(string label, string myValidation, vector<string> geometries, vec
  *  \brief  Create a file where the DMR trends are stored in the form of TGraph.
  */
 
-void compileDMRTrends(string label, string myValidation, vector<string> geometries, string type, bool hideproblems){
+void compileDMRTrends(string label, string myValidation, vector<string> geometries, string type, bool showlumi, bool hideproblems){
     gROOT->SetBatch();
     vector<int>RunNumbers;
     vector<TString> filenames;
@@ -198,10 +235,18 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
 	else{
 	  TString filename(entry.path().string());
 	  filenames.push_back(filename);
+	  TString runstring(filename(regexp));
+	  if(runstring.IsFloat()){
+	    int runN=runstring.Atoi();
+	    RunNumbers.push_back(runN);
+	  }
 	}
       }
     }
-
+    if(checkrunlist(RunNumbers)&&showlumi&&!hideproblems){
+      cout << "Please fix the run/luminosities file!" << endl;
+      exit(EXIT_FAILURE);
+    }
     vector<int> pixelupdateruns {314881, 316758, 317527, 318228, 320377};
 
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
@@ -211,13 +256,12 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
 
     map<pair<pair<TString,int>,TString>,Geometry> mappoints; // pair = (structure, layer), geometry
     
-    std::sort(filenames.begin(),filenames.end());
+    std::sort(filenames.begin(),filenames.end());//order the files in alphabetical order
     for (TString filename: filenames){
         int runN;
         TString runstring(filename(regexp));
         if(runstring.IsFloat()){
 	  runN=runstring.Atoi();
-	  RunNumbers.push_back(runN);
 	}
         else{
 	  cout << "ERROR: run number not retrieved for file " << filename << endl;
@@ -351,8 +395,6 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 
 
 double getintegratedlumiuptorun(int run, double min, string scalefile){
-    int unitscale=pow(10,3);
-
     TGraph * scale = new TGraph(scalefile.c_str());
     int Nscale=scale->GetN();
     double *xscale=scale->GetX();
@@ -367,13 +409,12 @@ double getintegratedlumiuptorun(int run, double min, string scalefile){
             index=j;
             continue;
         }else if(run>xscale[j]){
-	  //cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl;
 	      index=j-1;
 	      continue;
 	}
     }
     lumi=min;  
-    for(int j=0;j<index;j++)lumi+=yscale[j]/unitscale;
+    for(int j=0;j<index;j++)lumi+=yscale[j]/SFactor;
 
     return lumi;
 
@@ -384,8 +425,6 @@ double getintegratedlumiuptorun(int run, double min, string scalefile){
 ///TO FIX: currently the error on the x axis result in a segmentation fault:
 
 void scalebylumi(TGraphErrors *g, double min, string scalefile){ 
-    float unitscale=pow(10,3);
-
     size_t N=g->GetN();
     vector<double> x,y,xerr,yerr;
 
@@ -403,19 +442,15 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
             if(run==xscale[j]){
                 index=j;
                 continue;
-            }else if(run>xscale[j]){
-	      //	      cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
-	      index=j-1;
-	      continue;
-	    }
+            }else if(run>xscale[j]) continue;
         }
-        if(yscale[index]==0){
+        if(yscale[index]==0||index<0.){
             N=N-1;
             g->RemovePoint(i);
         }else{
 	    double xvalue=min;
-            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/unitscale;
-	    x   .push_back(xvalue+yscale[index]/(unitscale*2.));
+            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/SFactor;
+	    x   .push_back(xvalue+yscale[index]/(SFactor*2.));
 	    if(yvalue<=DUMMY){
 	      y.push_back(DUMMY);
 	      yerr.push_back(0.);
@@ -423,7 +458,7 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
 	      y.push_back(yvalue);
 	      yerr.push_back(g->GetErrorY(i));
 	    }
-	    xerr.push_back(yscale[index]/(unitscale*2.));
+	    xerr.push_back(yscale[index]/(SFactor*2.));
             i=i+1;
         }
 
@@ -435,8 +470,6 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
 }
 
 void scalebylumi(TGraph *g, double min, string scalefile){ 
-    float unitscale=pow(10,3);
-
     size_t N=g->GetN();
     vector<double> x,y,xerr,yerr;
 
@@ -454,27 +487,21 @@ void scalebylumi(TGraph *g, double min, string scalefile){
             if(run==xscale[j]){
                 index=j;
                 continue;
-            }else if(run>xscale[j]){
-	      //	      cout << "WARNING: IOV number " << run << " not found in the list of run numbers and integrated luminosity!" << endl << "Added to the plot using the integrated luminotisy up to the previous run." << endl;
-	      index=j-1;
-	      continue;
-	    }
+            }else if(run>xscale[j]) continue;
+	    
         }
-        if(yscale[index]==0){
+        if(yscale[index]==0||index<0.){
             N=N-1;
             g->RemovePoint(i);
         }else{
 	    double xvalue=min;
-            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/unitscale;
-	    x   .push_back(xvalue+yscale[index]/(unitscale*2.));
+            for(size_t j=0;j<index;j++)xvalue+=yscale[j]/SFactor;
+	    x   .push_back(xvalue+yscale[index]/(SFactor*2.));
 	    if(yvalue<=DUMMY){
 	      y.push_back(DUMMY);
-	      //yerr.push_back(0.);
 	    }else{
 	      y.push_back(yvalue);
-	      //yerr.push_back(g->GetErrorY(i));
 	    }
-	    //xerr.push_back(yscale[index]/(unitscale*2.));
             i=i+1;
         }
 
@@ -484,16 +511,11 @@ void scalebylumi(TGraph *g, double min, string scalefile){
     for(size_t i=0;i<N;i++){
       Double_t xdouble=x.at(i);
       Double_t ydouble=y.at(i);
-      //Double_t xerrdouble=xerr.at(i);
-      //Double_t yerrdouble=yerr.at(i);
       g->SetPoint(i, xdouble,ydouble);
-      //g->SetPointError(i, 0., 0.);
 
     }
-    //for (size_t i=0;i<N;i++) cout << x.at(i) << " " << y.at(i) << " " << xerr.at(i) << " " << yerr.at(i) << endl; 
-    //for(size_t i=0; i < (size_t)g->GetN(); i++)g->SetPointError(i, 0., 0.);
-
 }
+
 
 /*! \fn PlotDMRTrends
  *  \brief Plot the DMR trends.
@@ -592,19 +614,15 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                 legend->AddEntry((TObject*)0,structtitle.Data(),"h");
                 TLegendEntry *str = (TLegendEntry*)legend->GetListOfPrimitives()->Last();
                 str->SetTextSize(.03);
-                //cout << "pad max " << gPad->GetUymax() << " pad min " << gPad->GetUymin() << endl;
-                //cout << "graph max " << max << " graph min " << min << endl;
                 PixelUpdateLines(c, showlumi, pixelupdateruns);
 
 		legend->Draw();
                 c->Update();
                 TString structandlayer = getName(structure,layer,"");
-		///TO DO: select output directory for the printing the DMR trends
                 TString printfile=outputdir+label+"-"+type+"_"+variable+structandlayer;
                 c->SaveAs(printfile+".pdf");
                 c->SaveAs(printfile+".eps");
                 c->SaveAs(printfile+".png");
-		//cout<< "DONE"<<endl;
             }
 
         }
