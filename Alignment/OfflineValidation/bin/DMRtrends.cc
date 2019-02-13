@@ -380,7 +380,7 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	       _sx = rx*(lumi-rx1)+x1ndc;
 	       bool tooclose = false;
 	       if( ((lumi-lastlumi) < (showlumi ? 5 : 1000)) && lastlumi!=0 )tooclose=true;
-	       TPaveText *box= new TPaveText(_sx+0.001,0.85-tooclose*0.05,_sx+0.08,0.89-tooclose*0.05,"blNDC");
+	       TPaveText *box= new TPaveText(_sx+0.002,0.85-tooclose*0.05,_sx+0.08,0.89-tooclose*0.05,"blNDC");
 	       TText *textRun = box->AddText(Form("%i",int(pixelupdaterun)));
 	       textRun->SetTextSize(0.025);
 	       labels.push_back(box);
@@ -554,9 +554,10 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                     TString name = getName(structure, layer, geometry);
                     TGraphErrors *g = (TGraphErrors*) in->Get(name+"_"+variables.at(i));
                     if(i>=8){
-                        g->SetLineWidth(2);
+                        g->SetLineWidth(1);
                         g->SetFillColor(*colour);
-                        g->SetFillStyle(3350+i-8);
+                        g->SetFillStyle(3344+i-8);
+			g->SetMarkerStyle(7);
                     }else g->SetMarkerStyle(20);
 		    vector<vector<double>> vectors; 
 		    if(showlumi&&i<8)scalebylumi((TGraph*)g);
@@ -564,14 +565,17 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
 		    g->SetLineColor(*colour);
                     g->SetMarkerColor(*colour);
                     if(i<8) mg->Add(g,"PL");
-                    else mg->Add(g,"3L");
+                    else mg->Add(g,"2LP");
                     if(g->GetHistogram()->GetMaximum() > max) max = g->GetHistogram()->GetMaximum();
                     if(g->GetHistogram()->GetMinimum() < min) min = g->GetHistogram()->GetMinimum();
                     ++colour;
 
                 }
                 if(i<8) mg->Draw("a");
-                else mg->Draw("a3");
+                else{
+		  mg->Draw("a2L");
+		  mg->Draw("p[]");
+		}
                 max=0.7;
                 min=-0.5;
                 double range=max-min;
