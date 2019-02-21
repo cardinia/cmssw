@@ -11,6 +11,7 @@
 #include "TGraphErrors.h"
 #include "TMultiGraph.h"
 #include "TH1.h"
+#include "THStack.h"
 #include "TROOT.h"
 #include "TFile.h"
 #include "TColor.h"
@@ -94,6 +95,7 @@ struct Point {
 ///**************************
 
 TString getName (TString structure, int layer, TString geometry);
+TH1F* ConvertToHist(TGraphErrors *g); 
 vector<int> runlistfromlumifile(string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
 bool checkrunlist(vector<int> runs);
 void scalebylumi(TGraphErrors *g, double min=0., string scalefile="/afs/cern.ch/work/h/hpeterse/public/lumiPerRun80.csv"); 
@@ -285,9 +287,7 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
                         point= new Point(runN);
 			if(hideproblems)continue;
                     }else if(structure!="TID"&&structure!="TEC"){
-
                         TH1F *histoplus  = dynamic_cast<TH1F*>(f->Get((name+"_plus")));
-
                         TH1F *histominus = dynamic_cast<TH1F*>(f->Get((name+"_minus")));						  
                         if(!histoplus||!histominus){
                             cout << "Run" << runN << " Histogram: " << name << " plus or minus not found" << endl;
@@ -319,17 +319,17 @@ void compileDMRTrends(string label, string myValidation, vector<string> geometri
                 vector<TString> variables {"mu", "sigma", "muplus", "sigmaplus", "muminus", "sigmaminus", "deltamu", "sigmadeltamu" };
                 vector<float> runs = geom.Run();
                 size_t n = runs.size();
+                vector<float> emptyvec;
+                for(size_t i=0; i < runs.size(); i++)emptyvec.push_back(0.);
                 for(size_t iVar=0; iVar < variables.size(); iVar++){
                     Trend trend=trends.at(iVar);
-                    TGraph *g = new TGraph(n, runs.data(), (geom.*trend)().data());
+                    TGraphErrors *g = new TGraphErrors(n, runs.data(), (geom.*trend)().data(), emptyvec.data(), emptyvec.data());
                     g->SetTitle(geometry.c_str());
                     g->Write(name+"_"+variables.at(iVar));
                 }
                 vector<pair<Trend,Trend>> trendspair {make_pair(&Geometry::Mu, &Geometry::Sigma), make_pair(&Geometry::MuPlus, &Geometry::SigmaPlus), 
-                    make_pair(&Geometry::MuMinus, &Geometry::SigmaMinus), make_pair(&Geometry::DeltaMu, &Geometry::SigmaDeltaMu) };
+		    make_pair(&Geometry::MuMinus, &Geometry::SigmaMinus), make_pair(&Geometry::DeltaMu, &Geometry::SigmaDeltaMu) };
                 vector<pair<TString,TString>> variablepairs {make_pair("mu", "sigma"), make_pair("muplus", "sigmaplus"), make_pair("muminus", "sigmaminus"), make_pair("deltamu", "sigmadeltamu") };
-                vector<float> emptyvec;
-                for(size_t i=0; i < runs.size(); i++)emptyvec.push_back(0.5);
                 for(size_t iVar=0; iVar < variablepairs.size(); iVar++){
                     Trend meantrend=trendspair.at(iVar).first;
                     Trend sigmatrend=trendspair.at(iVar).second;
@@ -356,8 +356,9 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	       if(showlumi)lumi=getintegratedlumiuptorun(pixelupdaterun);
 	       else lumi=pixelupdaterun;
 	       TLine *line = new TLine (lumi,c->GetUymin(),lumi,c->GetUymax());
-	       line->SetLineColor(kRed);
-	       line->SetLineWidth(2);
+	       line->SetLineColor(kBlack);
+	       //line->SetLineWidth(1);
+	       line->SetLineStyle(9);
 	       line->Draw();
 	       
 	       int ix1;
@@ -379,8 +380,8 @@ void PixelUpdateLines(TCanvas *c, bool showlumi, vector<int>pixelupdateruns){
 	       double _sx;
 	       _sx = rx*(lumi-rx1)+x1ndc;
 	       bool tooclose = false;
-	       if( ((lumi-lastlumi) < (showlumi ? 5 : 1000)) && lastlumi!=0 )tooclose=true;
-	       TPaveText *box= new TPaveText(_sx+0.002,0.85-tooclose*0.05,_sx+0.08,0.89-tooclose*0.05,"blNDC");
+	       if( ((lumi-lastlumi) < (showlumi ? 2 : 500)) && lastlumi!=0 )tooclose=true;
+	       TPaveText *box= new TPaveText(_sx+0.001,0.87-tooclose*0.04,_sx+0.045,0.89-tooclose*0.04,"blNDC");
 	       TText *textRun = box->AddText(Form("%i",int(pixelupdaterun)));
 	       textRun->SetTextSize(0.025);
 	       labels.push_back(box);
@@ -450,7 +451,7 @@ void scalebylumi(TGraphErrors *g, double min, string scalefile){
         }else{
 	    double xvalue=min;
             for(size_t j=0;j<index;j++)xvalue+=yscale[j]/SFactor;
-	    x   .push_back(xvalue+yscale[index]/(SFactor*2.));
+	    x   .push_back(xvalue+(yscale[index]/(SFactor*2.)));
 	    if(yvalue<=DUMMY){
 	      y.push_back(DUMMY);
 	      yerr.push_back(0.);
@@ -517,6 +518,30 @@ void scalebylumi(TGraph *g, double min, string scalefile){
 }
 
 
+TH1F *ConvertToHist(TGraphErrors *g){ 
+    size_t N=g->GetN();
+    double* x=g->GetX();
+    double* y=g->GetY();
+    double* xerr=g->GetEX();
+    vector<float> bins;
+    bins.push_back(x[0]-xerr[0]);
+    for(size_t i=1;i<N;i++){
+      if((x[i-1]+xerr[i-1]) > (bins.back() + pow(10,-6))) bins.push_back(x[i-1]+xerr[i-1]);
+      if((x[i]-xerr[i])     > (bins.back() + pow(10,-6))) bins.push_back(x[i]-xerr[i]);
+      
+    }
+    bins.push_back(x[N-1]+xerr[N-1]);
+    TString histoname="histo_";
+    histoname+=g->GetName();
+    TH1F *histo = new TH1F(histoname,g->GetTitle(),bins.size()-1,bins.data());
+    for(size_t i=0;i<N;i++){
+      histo->Fill(x[i],y[i]);
+      histo->SetBinError(histo->FindBin(x[i]),pow(10,-6));
+    }
+  return histo;
+}
+
+
 /*! \fn PlotDMRTrends
  *  \brief Plot the DMR trends.
  */
@@ -543,41 +568,49 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
             vector<string> YaxisNames { "#mu [#mum]", "#sigma_{#mu} [#mum]", "#mu outward [#mum]", "#sigma_{#mu outward} [#mum]", "#mu inward [#mum]", "#sigma_{#mu inward} [#mum]", "#Delta#mu [#mum]", "#sigma_{#Delta#mu} [#mum]", "#mu [#mum]", "#mu outward [#mum]", "#mu inward [#mum]", "#Delta#mu [#mum]",}; 
             for(size_t i=0; i < variables.size(); i++){
                 TString variable= variables.at(i);
-                double max=-999;
-                double min=+999;
-                TCanvas * c = new TCanvas;
+                TCanvas * c = new TCanvas("dummy","",2000,800);
                 vector<Color_t>::iterator colour = colours.begin();
 
                 TMultiGraph *mg = new TMultiGraph(structure,structure);
-
+                THStack *mh = new THStack(structure,structure);
+		size_t igeom=0;
                 for (string geometry: geometries) {
                     TString name = getName(structure, layer, geometry);
-                    TGraphErrors *g = (TGraphErrors*) in->Get(name+"_"+variables.at(i));
+                    TGraphErrors *g = dynamic_cast<TGraphErrors*> (in->Get(name+"_"+variables.at(i)));
+		    g->SetName(name+"_"+variables.at(i));
                     if(i>=8){
                         g->SetLineWidth(1);
-                        g->SetFillColor(*colour);
-                        g->SetFillStyle(3344+i-8);
-			g->SetMarkerStyle(7);
+			g->SetLineColor(*colour);
+                        g->SetFillColorAlpha(*colour,0.2);
                     }else g->SetMarkerStyle(20);
 		    vector<vector<double>> vectors; 
-		    if(showlumi&&i<8)scalebylumi((TGraph*)g);
-		    else if(showlumi)scalebylumi(g);
+		    //if(showlumi&&i<8)scalebylumi(dynamic_cast<TGraph*>(g));
+		    if(showlumi)scalebylumi(g);
 		    g->SetLineColor(*colour);
                     g->SetMarkerColor(*colour);
-                    if(i<8) mg->Add(g,"PL");
-                    else mg->Add(g,"2LP");
-                    if(g->GetHistogram()->GetMaximum() > max) max = g->GetHistogram()->GetMaximum();
-                    if(g->GetHistogram()->GetMinimum() < min) min = g->GetHistogram()->GetMinimum();
-                    ++colour;
+		    TH1F *h = ConvertToHist(g); 
+ 		    h->SetLineColor(*colour);
+ 		    h->SetMarkerColor(*colour);
+ 		    h->SetMarkerSize(0);
+		    h->SetLineWidth(2);
 
+                    if(i<8){
+		      mg->Add(g,"PL");
+		      mh->Add(h,"E");
+                    }else{
+		      mg->Add(g,"2");
+		      mh->Add(h,"E");
+                    }
+                    ++colour;
+		    ++igeom;
                 }
-                if(i<8) mg->Draw("a");
-                else{
-		  mg->Draw("a2L");
-		  mg->Draw("p[]");
+                if(i<8){
+		  mg->Draw("a");
+                }else{
+		  mg->Draw("a2");
 		}
-                max=0.7;
-                min=-0.5;
+                double max=0.7;
+                double min=-0.5;
                 double range=max-min;
                 if(variable=="deltamusigmadeltamu")max=1,min=-0.8;
                 if(((variable=="sigma"||variable=="sigmaplus"||variable=="sigmaminus"||variable=="sigmadeltamu")&&range>=2)){
@@ -587,12 +620,14 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                     mg->SetMaximum(max+range*0.1);
                     mg->SetMinimum(min-range*0.3);
                 }
+
                 char* Ytitle= (char *)YaxisNames.at(i).c_str();
                 mg->GetYaxis()->SetTitle(Ytitle);
-                mg->GetXaxis()->SetTitle(showlumi ? "Integrated lumi" : "IOV number");
-                mg->GetYaxis()->SetTitleOffset(.8);
+                mg->GetXaxis()->SetTitle(showlumi ? "Integrated lumi [1/fb]" : "IOV number");
+                mg->GetYaxis()->SetTitleOffset(.5);
                 mg->GetYaxis()->SetTitleSize(.05);
                 mg->GetXaxis()->SetTitleSize(.04);
+		mg->GetXaxis()->SetLimits(0.,mg->GetXaxis()->GetXmax());
                 gStyle->SetOptTitle(0); // TODO
                 c->SetLeftMargin(0.11);
                 TString typetitle="";
@@ -601,11 +636,13 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
 
                 c->Update();
 
+		//gStyle->SetLegendBorderSize(0);
+		gStyle->SetLegendTextSize(0.025);
 
-                TLegend *legend = c->BuildLegend();
-                legend->SetHeader(typetitle.Data());
-                TLegendEntry *header = (TLegendEntry*)legend->GetListOfPrimitives()->First();
-                header->SetTextSize(.04);
+                TLegend *legend = c->BuildLegend(0.35,0.1,0.35,0.1);
+                //legend->SetHeader(typetitle.Data());
+                //TLegendEntry *header = (TLegendEntry*)legend->GetListOfPrimitives()->First();
+                //header->SetTextSize(.04);
 		int Ngeom=geometries.size();
                 legend->SetNColumns(Ngeom);
                 //legend->SetTextSize(0.05);
@@ -615,18 +652,21 @@ void PlotDMRTrends(string label, string type, string myValidation, vector<string
                     else structtitle+="_layer";
                     structtitle+=layer;
                 }
-                legend->AddEntry((TObject*)0,structtitle.Data(),"h");
-                TLegendEntry *str = (TLegendEntry*)legend->GetListOfPrimitives()->Last();
-                str->SetTextSize(.03);
+                //legend->AddEntry((TObject*)0,structtitle.Data(),"h");
+                //TLegendEntry *str = (TLegendEntry*)legend->GetListOfPrimitives()->Last();
+                //str->SetTextSize(.03);
                 PixelUpdateLines(c, showlumi, pixelupdateruns);
 
 		legend->Draw();
+		mh->Draw("nostack same");
                 c->Update();
                 TString structandlayer = getName(structure,layer,"");
                 TString printfile=outputdir+label+"-"+type+"_"+variable+structandlayer;
                 c->SaveAs(printfile+".pdf");
                 c->SaveAs(printfile+".eps");
                 c->SaveAs(printfile+".png");
+		//c->Close();
+		c->Destructor();
             }
 
         }
