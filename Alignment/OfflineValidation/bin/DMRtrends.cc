@@ -247,6 +247,11 @@ bool checkrunlist(vector<int> runs,vector<int> IOVlist, TString Year){
  */
 
 void DMRtrends(vector<int> IOVlist,vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi, bool FORCE){
+    fs::path path(outputdir.Data());
+    if(!(fs::exists(path))){
+      cout << "ERROR: Output directory (" << outputdir.Data() << ") not found, please check the given path!" << endl << "Currently the output directory is not created by the code, please create the directory and try again." << endl;
+	exit(EXIT_FAILURE);
+    }
     compileDMRTrends(IOVlist, labels, Year, myValidation, geometries, showlumi, FORCE);
     cout<< "Begin plotting"<<endl;
     PlotDMRTrends(labels, Year, myValidation, geometries, colours, outputdir, pixelupdate, pixelupdateruns, showlumi);
@@ -646,21 +651,37 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 		//gStyle->SetLegendBorderSize(0);
 		gStyle->SetLegendTextSize(0.025);
 
-                TLegend *legend = c->BuildLegend();
-                //TLegend *legend = c->BuildLegend(0.3,0.15,0.3,0.15);
+                //TLegend *legend = c->BuildLegend();
+                TLegend *legend = c->BuildLegend(0.2,0.15,0.2,0.15);
                 	int Ngeom=geometries.size();
-			legend->SetNColumns(Ngeom);
+			if(Ngeom>=4){
+			  if(Ngeom%2==0)legend->SetNColumns(2);
+			  else if(Ngeom%3==0)legend->SetNColumns(3);
+			  else legend->SetNColumns(1);
+			}else legend->SetNColumns(1);
                 //legend->SetTextSize(0.05);
-                TString structtitle = structure;
+                TString structtitle = "#bf{"+structure;
                 if(layer!=0){
-                    if(structure=="TID"||structure=="TEC"||structure=="FPIX"||structure=="FPIX_y")structtitle+="_disc";
-                    else structtitle+="_layer";
+                    if(structure=="TID"||structure=="TEC"||structure=="FPIX"||structure=="FPIX_y")structtitle+="  disc ";
+                    else structtitle+="  layer ";
                     structtitle+=layer;
                 }
-		legend->SetHeader("#scale[1.2]{#bf{CMS} Work in progress}");
+		structtitle+="}";
+		TPaveText *CMSworkInProgress = new TPaveText(0,7,2.5,8,"nb");
+		CMSworkInProgress->AddText("#scale[1.1]{CMS} #bf{Internal}");
+		CMSworkInProgress->SetTextAlign(12);
+		CMSworkInProgress->SetTextSize(0.04);
+		CMSworkInProgress->Draw();
+		TPaveText *structlabel = new TPaveText(30,7,33.4,8,"nb");
+		structlabel->AddText(structtitle.Data());
+		structlabel->SetTextAlign(32);
+		structlabel->SetTextFont(62);
+		structlabel->SetTextSize(0.04);
+		structlabel->Draw();
+		//legend->SetHeader("#scale[1.2]{#bf{CMS} Work in progress}");
                 //TLegendEntry *header = (TLegendEntry*)legend->GetListOfPrimitives()->First();
                 //header->SetTextSize(.04);
-		legend->AddEntry((TObject*)nullptr,structtitle.Data(),"h");
+		//legend->AddEntry((TObject*)nullptr,structtitle.Data(),"h");
                
 		//TLegendEntry *str = (TLegendEntry*)legend->GetListOfPrimitives()->Last();
                 //str->SetTextSize(.03);
@@ -671,6 +692,7 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
                 c->Update();
                 TString structandlayer = getName(structure,layer,"");
                 TString printfile=outputdir;
+		if(!(outputdir.EndsWith("/")))outputdir+="/";
 		for(TString label : labels){printfile+=label;printfile+="_";}
 		printfile+=variable+structandlayer;
 		c->SaveAs(printfile+".pdf");
@@ -713,7 +735,7 @@ int main (int argc, char * argv[]) {
 		//Example provided for a currently working set of parameters
 		DMRtrends(IOVlist,{"v9"},"2017", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/paconnor/",
                 {"SG EOY17","1st step pixel strip","2nd step panels ladders", "2st step hybrid", "2nd step hybrid SD"},
-                {kBlack,kBlue,kRed,kGreen+2,kOrange}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/paconnor/DMRTrends/", true, pixelupdateruns, true, true); 
+                {kBlack,kBlue,kRed,kGreen+2,kOrange}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/DMRTrends/test/", true, pixelupdateruns, true, true); 
 		
 		
 		return 0;
