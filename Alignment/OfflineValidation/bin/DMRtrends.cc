@@ -247,7 +247,7 @@ bool checkrunlist(vector<int> runs,vector<int> IOVlist, TString Year){
  */
 
 void DMRtrends(vector<int> IOVlist,vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi, bool FORCE){
-  compileDMRTrends(IOVlist, labels, Year, myValidation, geometries, showlumi, FORCE);
+    compileDMRTrends(IOVlist, labels, Year, myValidation, geometries, showlumi, FORCE);
     cout<< "Begin plotting"<<endl;
     PlotDMRTrends(labels, Year, myValidation, geometries, colours, outputdir, pixelupdate, pixelupdateruns, showlumi);
 
@@ -345,6 +345,7 @@ void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, 
     TString outname=myValidation+"DMRtrends";
     for(TString label : labels){outname+="_"; outname+=label;}
     outname+=".root";
+    cout << outname << endl;
     TFile * fout = TFile::Open(outname, "RECREATE");
     for (TString& structure: structures) {
         TString structname = structure;
@@ -562,6 +563,7 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
     TString filename=myValidation+"DMRtrends";
     for(TString label : labels){ filename+="_"; filename+=label;}
     filename+=".root";
+    cout << filename << endl;
     TFile *in= new TFile(filename);
     for (TString& structure: structures) {
         TString structname = structure;
@@ -644,10 +646,10 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 		//gStyle->SetLegendBorderSize(0);
 		gStyle->SetLegendTextSize(0.025);
 
-                //TLegend *legend = c->BuildLegend();
-                TLegend *legend = c->BuildLegend(0.3,0.15,0.3,0.15);
+                TLegend *legend = c->BuildLegend();
+                //TLegend *legend = c->BuildLegend(0.3,0.15,0.3,0.15);
                 	int Ngeom=geometries.size();
-                legend->SetNColumns(Ngeom/2);
+			legend->SetNColumns(Ngeom);
                 //legend->SetTextSize(0.05);
                 TString structtitle = structure;
                 if(layer!=0){
@@ -701,14 +703,17 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 int main (int argc, char * argv[]) { 
 	if (argc == 1) {
 
-	        vector<int>IOVlist={290543, 296702, 296966, 297224, 297281, 297429, 297467, 297484, 297494, 297503, 297557, 297599, 297620, 297660, 297670, 298678, 298996, 299062, 299096, 299184, 299327, 299368, 299381, 299443, 299480, 299592, 299594, 299649, 300087, 300155, 300233, 300237, 300280, 300364, 300389, 300399, 300459, 300497, 300515, 300538, 300551, 300574, 300636, 300673, 300780, 300806, 300812, 301046, 301417, 302131, 302573, 302635, 303825, 303998, 304170, 304505, 304672, 305040, 305081};//UL17
+//vector<int>IOVlist={290543, 296702, 296966, 297224, 297281, 297429, 297467, 297484, 297494, 297503, 297557, 297599, 297620, 297660, 297670, 298678, 298996, 299062, 299096, 299184, 299327, 299368, 299381, 299443, 299480, 299592, 299594, 299649, 300087, 300155, 300233, 300237, 300280, 300364, 300389, 300399, 300459, 300497, 300515, 300538, 300551, 300574, 300636, 300673, 300780, 300806, 300812, 301046, 301417, 302131, 302573, 302635, 303825, 303998, 304170, 304505, 304672, 305040, 305081};//UL17
+	        vector<int>IOVlist={294929,294934,294951,294954,294960,294987,294990,295123,295127,295200,295318,295341,295348,295376,295377,295381,295436,295439,295447,295449,295454,295457,295463,295600,295634,295648,296641,296663,296702,296900,296966,297004,297015,297047,297049,297179,297224,297281,297283,297429,297467,297484,297494,297503,297557,297598,297620,297660,297670,298678,298996,299062,299096,299184,299316,299327,299368,299370,299381,299443,299480,299592,299594,299649,300087,300155,300233,300237,300280,300364,300389,300399,300459,300497,300515,300538,300551,300574,300636,300673,300780,300806,300812,301046,301417,302131,302573,302635,303790,303825,303998,304170,304505,304672,305040,305113,305178,305188,305204,305809,305842,305898,305967,306029,306042,306126,306169,306417,306459,306460,306936};
 	        //vector<int> pixelupdateruns {316758, 317527,317661,317664,318227, 320377};//2018
-		vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 302131, 303790, 304911, 305898};//2017
+		vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898};//2017
 
 	        cout << "WARNING: Running function with arguments specified in DMRtrends.cc" << endl << "If you want to specify the arguments from command line run the macro as follows:" << endl << "DMRtrends labels pathtoDMRs geometriesandcolourspairs outputdirectory showpixelupdate showlumi FORCE" << endl;
 
 		//Example provided for a currently working set of parameters
-		DMRtrends(IOVlist,{"v3"},"2017", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/forDavid/", {"SG EOY17","former candidate","1st it","1st it SDs","2nd it","2nd it SDs"}, {kBlack, kOrange, kBlue, kViolet,kRed,kGreen+2}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/forDavid/DMRTrends/", true, pixelupdateruns, true, true); 
+		DMRtrends(IOVlist,{"v9"},"2017", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/paconnor/",
+                {"SG EOY17","1st step pixel strip","2nd step panels ladders", "2st step hybrid", "2nd step hybrid SD"},
+                {kBlack,kBlue,kRed,kGreen+2,kOrange}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/paconnor/DMRTrends/", true, pixelupdateruns, true, true); 
 		
 		
 		return 0;
