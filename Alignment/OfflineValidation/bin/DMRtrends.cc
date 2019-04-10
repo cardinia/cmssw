@@ -652,7 +652,7 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 		gStyle->SetLegendTextSize(0.025);
 
                 //TLegend *legend = c->BuildLegend();
-                TLegend *legend = c->BuildLegend(0.2,0.15,0.2,0.15);
+                TLegend *legend = c->BuildLegend(0.15,0.18,0.15,0.18);
                 	int Ngeom=geometries.size();
 			if(Ngeom>=4){
 			  if(Ngeom%2==0)legend->SetNColumns(2);
@@ -660,22 +660,28 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 			  else legend->SetNColumns(1);
 			}else legend->SetNColumns(1);
                 //legend->SetTextSize(0.05);
-                TString structtitle = "#bf{"+structure;
-                if(layer!=0){
+		TString structtitle = "#bf{";
+		if(structure.Contains("PIX")&&!(structure.Contains("_y"))) structtitle+=structure + " (x)";
+		else if(structure.Contains("_y")){
+		  TString substring(structure(0,4));
+		  structtitle+=substring + " (y)";
+                }
+		if(layer!=0){
                     if(structure=="TID"||structure=="TEC"||structure=="FPIX"||structure=="FPIX_y")structtitle+="  disc ";
                     else structtitle+="  layer ";
                     structtitle+=layer;
                 }
 		structtitle+="}";
+                PixelUpdateLines(c, Year, showlumi, pixelupdateruns);
+
 		TPaveText *CMSworkInProgress = new TPaveText(0,7,2.5,8,"nb");
 		CMSworkInProgress->AddText("#scale[1.1]{CMS} #bf{Internal}");
 		CMSworkInProgress->SetTextAlign(12);
 		CMSworkInProgress->SetTextSize(0.04);
 		CMSworkInProgress->Draw();
-		TPaveText *structlabel = new TPaveText(30,7,33.4,8,"nb");
+		TPaveText *structlabel = new TPaveText(30.5,-7,33.1,-6,"nb");
 		structlabel->AddText(structtitle.Data());
 		structlabel->SetTextAlign(32);
-		structlabel->SetTextFont(62);
 		structlabel->SetTextSize(0.04);
 		structlabel->Draw();
 		//legend->SetHeader("#scale[1.2]{#bf{CMS} Work in progress}");
@@ -685,7 +691,6 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
                
 		//TLegendEntry *str = (TLegendEntry*)legend->GetListOfPrimitives()->Last();
                 //str->SetTextSize(.03);
-                PixelUpdateLines(c, Year, showlumi, pixelupdateruns);
 
 		legend->Draw();
 		mh->Draw("nostack same");
