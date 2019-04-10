@@ -678,11 +678,13 @@ void PlotDMRTrends(vector<string> labels, TString Year, string myValidation, vec
 		CMSworkInProgress->AddText("#scale[1.1]{CMS} #bf{Internal}");
 		CMSworkInProgress->SetTextAlign(12);
 		CMSworkInProgress->SetTextSize(0.04);
+		CMSworkInProgress->SetFillColor(10);
 		CMSworkInProgress->Draw();
 		TPaveText *structlabel = new TPaveText(30.5,-7,33.1,-6,"nb");
 		structlabel->AddText(structtitle.Data());
 		structlabel->SetTextAlign(32);
 		structlabel->SetTextSize(0.04);
+		structlabel->SetFillColor(10);
 		structlabel->Draw();
 		//legend->SetHeader("#scale[1.2]{#bf{CMS} Work in progress}");
                 //TLegendEntry *header = (TLegendEntry*)legend->GetListOfPrimitives()->First();
