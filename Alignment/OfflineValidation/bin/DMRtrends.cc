@@ -23,6 +23,7 @@
 #include "TPaveText.h"
 #include "TStyle.h"
 #include "TLine.h"
+#include "Alignment/OfflineValidation/plugins/ColorParser.C"
 
 using namespace std;
 namespace fs = std::experimental::filesystem;
@@ -183,9 +184,15 @@ TString getName (TString structure, int layer, TString geometry){
 
 TString lumifileperyear(TString Year, string RunOrIOV){
   TString LumiFile=getenv("CMSSW_BASE"); LumiFile +="/src/Alignment/OfflineValidation/data/lumiper";
-  if(RunOrIOV!="run"&&RunOrIOV!="IOV") cout << "ERROR: Please specify \"run\" or \"IOV\" to retrieve the luminosity run by run or for each IOV"<<endl;
+  if(RunOrIOV!="run"&&RunOrIOV!="IOV"){
+        cout << "ERROR: Please specify \"run\" or \"IOV\" to retrieve the luminosity run by run or for each IOV"<<endl;
+ 	exit(EXIT_FAILURE);
+  }
   LumiFile+=RunOrIOV;
-  if(Year!="2017"&&Year!="2018") cout << "ERROR: Only 2017 and 2018 lumi-per-run/IOV are available, please check!"<<endl;
+  if(Year!="2017"&&Year!="2018"){
+        cout << "ERROR: Only 2017 and 2018 lumi-per-run/IOV are available, please check!"<<endl;
+ 	exit(EXIT_FAILURE);
+  }
   LumiFile+=Year;
   LumiFile+=".txt";
   return LumiFile;
@@ -557,7 +564,6 @@ vector<pair<int,double>> lumiperIOV(vector<int> IOVlist, TString Year){
 	if(i!=N)run=IOVlist.at(i);
 	else run=0;
 	for(size_t j=index;j<Nscale;j++){
-	  //cout << run << " >= " << xscale[j] << " ? " <<endl;
 	  if(run==xscale[j]){
 	    index=j;
 	    break;
@@ -565,15 +571,20 @@ vector<pair<int,double>> lumiperIOV(vector<int> IOVlist, TString Year){
 	}
 	if(i==0) lumiperIOV.push_back(make_pair(0,lumi));
 	else lumiperIOV.push_back(make_pair(IOVlist.at(i-1),lumi));
-	cout << lumiperIOV.at(i).first << " " << lumiperIOV.at(i).second <<endl;
+	//cout << lumiperIOV.at(i).first << " " << lumiperIOV.at(i).second <<endl;
 	++i;
     } 
-    double lumi=0.;
-    for(size_t j=0;j<Nscale;j++) lumi+=yscale[j];
-    cout << "Total lumi: " << lumi <<endl;
-    lumi=0.;
-    for(size_t j=0;j<lumiperIOV.size();j++) lumi+=lumiperIOV.at(j).second;
-    cout << "Total lumi saved for IOVs: " << lumi <<endl;
+    //for debugging:
+    double lumiInput=0;
+    double lumiOutput=0.;
+    for(size_t j=0;j<Nscale;j++) lumiInput+=yscale[j];
+    //cout << "Total lumi: " << lumiInput <<endl;
+    for(size_t j=0;j<lumiperIOV.size();j++) lumiOutput+=lumiperIOV.at(j).second;
+    //cout << "Total lumi saved for IOVs: " << lumiOutput <<endl;
+    if(abs(lumiInput-lumiOutput)>0.5){
+        cout << "ERROR: luminosity retrieved for IOVs does not match the one for the runs" << endl << "Please check that all IOV first runs are part of the run-per-lumi file!" << endl;
+ 	exit(EXIT_FAILURE);
+    }
     return lumiperIOV;
   }
 
@@ -865,7 +876,7 @@ int main (int argc, char * argv[]) {
 	for (int i=0; i < geometrieandcolourspairs->GetEntries(); i++) {
 	        TObjArray *geomandcolourvec = TString(geometrieandcolourspairs->At(i)->GetName()).Tokenize(":");
 		geometries.push_back(geomandcolourvec->At(0)->GetName());
-		colours.push_back((Color_t)(atoi(geomandcolourvec->At(1)->GetName())));
+		colours.push_back(ColorParser(geomandcolourvec->At(1)->GetName()));
 	}
 	DMRtrends(IOVlist,labels,Year,pathtoDMRs.Data(),geometries,colours,outputdirectory.Data(),showpixelupdate, pixelupdateruns,showlumi,FORCE);
 
