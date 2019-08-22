@@ -54,20 +54,20 @@ namespace fs = std::experimental::filesystem;
  * @param sigmaminus: //!< sigma/standard for outward pointing modules
  */
 struct Point {
-    float run, mu, sigma, muplus, muminus, sigmaplus, sigmaminus; 
+    float run, scale, mu, sigma, muplus, muminus, sigmaplus, sigmaminus; 
 
     /*! \fn Point
      *  \brief Constructor of structure Point, initialising all members one by one
      */
-    Point (float Run = DUMMY, float y1 = DUMMY,float y2 = DUMMY, float y3 = DUMMY, float y4 = DUMMY, float y5 = DUMMY, float y6 = DUMMY) :
-        run(Run), mu(y1), sigma(y2), muplus(y3), muminus(y5), sigmaplus(y4), sigmaminus(y6)
+    Point (float Run = DUMMY, float ScaleFactor=DMRFactor, float y1 = DUMMY,float y2 = DUMMY, float y3 = DUMMY, float y4 = DUMMY, float y5 = DUMMY, float y6 = DUMMY) :
+        run(Run), scale(ScaleFactor), mu(y1), sigma(y2), muplus(y3), muminus(y5), sigmaplus(y4), sigmaminus(y6)
     {}
 
     /*! \fn Point
      *  \brief Constructor of structure Point, initialising all members from DMRs directly (with split)
      */
-    Point (float Run, TH1 * histo, TH1 * histoplus, TH1 * histominus) :
-        Point(Run, histo->GetMean(), histo->GetMeanError(),
+    Point (float Run, float ScaleFactor, TH1 * histo, TH1 * histoplus, TH1 * histominus) :
+        Point(Run, ScaleFactor, histo->GetMean(), histo->GetMeanError(),
                 histoplus->GetMean(), histoplus->GetMeanError(),
                 histominus->GetMean(), histominus->GetMeanError())
     {}
@@ -75,23 +75,23 @@ struct Point {
     /*! \fn Point
      *  \brief Constructor of structure Point, initialising all members from DMRs directly (without split)
      */
-    Point (float Run, TH1 * histo) :
-        Point(Run, histo->GetMean(), histo->GetMeanError())
+    Point (float Run, float ScaleFactor, TH1 * histo) :
+        Point(Run, ScaleFactor, histo->GetMean(), histo->GetMeanError())
     {}
 
     Point& operator=(const Point &p){ run = p.run; mu = p.mu;  muplus = p.muplus;  muminus = p.muminus; sigma = p.sigma;  sigmaplus = p.sigmaplus;  sigmaminus = p.sigmaminus; return *this;}
 
     float GetRun          () const { return run       ; } 
-    float GetMu           () const { return DMRFactor*mu        ; } 
-    float GetMuPlus       () const { return DMRFactor*muplus    ; } 
-    float GetMuMinus      () const { return DMRFactor*muminus   ; } 
-    float GetSigma        () const { return DMRFactor*sigma     ; } 
-    float GetSigmaPlus    () const { return DMRFactor*sigmaplus ; } 
-    float GetSigmaMinus   () const { return DMRFactor*sigmaminus; } 
+    float GetMu           () const { return scale*mu        ; } 
+    float GetMuPlus       () const { return scale*muplus    ; } 
+    float GetMuMinus      () const { return scale*muminus   ; } 
+    float GetSigma        () const { return scale*sigma     ; } 
+    float GetSigmaPlus    () const { return scale*sigmaplus ; } 
+    float GetSigmaMinus   () const { return scale*sigmaminus; } 
     float GetDeltaMu      () const { if(muplus==DUMMY&&muminus==DUMMY) return DUMMY;
-        else return DMRFactor*(muplus - muminus); }
-        float GetSigmaDeltaMu () const { if(sigmaplus==DUMMY&&sigmaminus==DUMMY) return DUMMY;
-            else return DMRFactor*hypot(sigmaplus,sigmaminus); };
+        else return scale*(muplus - muminus); }
+    float GetSigmaDeltaMu () const { if(sigmaplus==DUMMY&&sigmaminus==DUMMY) return DUMMY;
+        else return scale*hypot(sigmaplus,sigmaminus); };
 };
 
 
@@ -108,9 +108,9 @@ void scalebylumi(TGraphErrors *g, vector<pair<int,double>> lumiIOVpairs);
 vector<pair<int,double>> lumiperIOV(vector<int> IOVlist, TString Year="2018"); 
 double getintegratedlumiuptorun(int run, TString Year="2018", double min=0.);
 void PixelUpdateLines(TCanvas *c, TString Year="2018", bool showlumi=false, vector<int>pixelupdateruns={314881, 316758, 317527, 318228, 320377});
-void PlotDMRTrends(vector<int> IOVlist, vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, vector<int> pixelupdateruns={314881, 316758, 317527, 318228, 320377}, bool showlumi=false);
-void compileDMRTrends(vector<int> IOVlist, vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"} ,bool showlumi=false, bool FORCE=false);
-void DMRtrends(vector<int> IOVlist, vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, vector<int> pixelupdateruns={314881, 316758, 317527, 318228, 320377}, bool showlumi=false, bool FORCE=false);
+void PlotDMRTrends(vector<int> IOVlist, TString Variable="median", vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, vector<int> pixelupdateruns={314881, 316758, 317527, 318228, 320377}, bool showlumi=false);
+void compileDMRTrends(vector<int> IOVlist, TString Variable="median", vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"} ,bool showlumi=false, bool FORCE=false);
+void DMRtrends(vector<int> IOVlist, vector<string> Variables={"median", "DrmsNR"}, vector<string>labels={"MB"}, TString Year="2018", string myValidation="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/", vector<string> geometries={"GT","SG", "MP pix LBL","PIX HLS+ML STR fix"}, vector<Color_t> colours={kBlue, kRed, kGreen, kCyan}, TString outputdir="/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/acardini/DMRsTrends/", bool pixelupdate=false, vector<int> pixelupdateruns={314881, 316758, 317527, 318228, 320377}, bool showlumi=false, bool FORCE=false);
 
 /*! \class Geometry
  *  \brief Class Geometry
@@ -254,7 +254,7 @@ bool checkrunlist(vector<int> runs,vector<int> IOVlist, TString Year){
  *  \brief Create and plot the DMR trends.
  */
 
-void DMRtrends(vector<int> IOVlist,vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi, bool FORCE){
+void DMRtrends(vector<int> IOVlist, vector<string> Variables, vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi, bool FORCE){
     fs::path path(outputdir.Data());
     if(!(fs::exists(path))){
       cout << "WARNING: Output directory (" << outputdir.Data() << ") not found, it will be created automatically!" << endl;
@@ -265,9 +265,11 @@ void DMRtrends(vector<int> IOVlist,vector<string> labels, TString Year, string m
 	exit(EXIT_FAILURE);
       }
     }
-    compileDMRTrends(IOVlist, labels, Year, myValidation, geometries, showlumi, FORCE);
-    cout<< "Begin plotting"<<endl;
-    PlotDMRTrends(IOVlist, labels, Year, myValidation, geometries, colours, outputdir, pixelupdate, pixelupdateruns, showlumi);
+    for(TString Variable: Variables){
+      compileDMRTrends(IOVlist, Variable, labels, Year, myValidation, geometries, showlumi, FORCE);
+      cout<< "Begin plotting"<<endl;
+      PlotDMRTrends(IOVlist, Variable, labels, Year, myValidation, geometries, colours, outputdir, pixelupdate, pixelupdateruns, showlumi);
+    }
 
 };
 
@@ -275,7 +277,7 @@ void DMRtrends(vector<int> IOVlist,vector<string> labels, TString Year, string m
  *  \brief  Create a file where the DMR trends are stored in the form of TGraph.
  */
 
-void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, string myValidation, vector<string> geometries, bool showlumi, bool FORCE){
+void compileDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labels, TString Year, string myValidation, vector<string> geometries, bool showlumi, bool FORCE){
     gROOT->SetBatch();
     vector<int>RunNumbers;
     vector<TString> filenames;
@@ -310,7 +312,9 @@ void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, 
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
 
     const map<TString,int> nlayers{ {"BPIX", 4}, {"FPIX", 3}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
-
+   
+    float ScaleFactor=DMRFactor;
+    if(Variable=="DrmsNR")    ScaleFactor=1;
 
     map<pair<pair<TString,int>,TString>,Geometry> mappoints; // pair = (structure, layer), geometry
     
@@ -334,7 +338,7 @@ void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, 
             size_t layersnumber=nlayers.at(structname);
             for (size_t layer=0; layer<=layersnumber;layer++){
                 for (string geometry: geometries) {
-                    TString name = getName(structure, layer, geometry);
+		    TString name = Variable+"_"+getName(structure, layer, geometry);
                     TH1F *histo      = dynamic_cast<TH1F*>(f->Get( name));
                     //Geometry *geom =nullptr;
                     Point * point = nullptr;
@@ -347,17 +351,17 @@ void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, 
                     if(!histo){
                         cout << "Run" << runN << " Histogram: " << name << " not found" << endl;
 			if(FORCE)continue;
-                        point= new Point(runN);
+                        point= new Point(runN,ScaleFactor);
                     }else if(structure!="TID"&&structure!="TEC"){
                         TH1F *histoplus  = dynamic_cast<TH1F*>(f->Get((name+"_plus")));
                         TH1F *histominus = dynamic_cast<TH1F*>(f->Get((name+"_minus")));						  
                         if(!histoplus||!histominus){
                             cout << "Run" << runN << " Histogram: " << name << " plus or minus not found" << endl;
 			    if(FORCE)continue;
-                            point= new Point(runN, histo);
-                        }else point= new Point(runN, histo, histoplus, histominus);
+                            point= new Point(runN,ScaleFactor, histo);
+                        }else point= new Point(runN,ScaleFactor, histo, histoplus, histominus);
 
-                    }else point= new Point(runN, histo);
+                    }else point= new Point(runN,ScaleFactor, histo);
                     mappoints[make_pair(make_pair(structure,layer),geometry)].points.push_back(*point);
                 }
             }
@@ -375,7 +379,7 @@ void compileDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, 
         size_t layersnumber=nlayers.at(structname);
         for (size_t layer=0; layer<=layersnumber;layer++){
             for (string geometry : geometries) {
-                TString name = getName(structure, layer, geometry);
+                TString name = Variable+"_"+getName(structure, layer, geometry);
                 Geometry geom = mappoints[make_pair(make_pair(structure,layer),geometry)];
                 using Trend = vector<float> (Geometry::*)() const;
                 vector<Trend> trends {&Geometry::Mu, &Geometry::Sigma, &Geometry::MuPlus, &Geometry::SigmaPlus, 
@@ -620,12 +624,15 @@ TH1F *ConvertToHist(TGraphErrors *g){
  *  \brief Plot the DMR trends.
  */
 
-void PlotDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi){
+void PlotDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labels, TString Year, string myValidation, vector<string> geometries, vector<Color_t> colours, TString outputdir, bool pixelupdate, vector<int> pixelupdateruns, bool showlumi){
     gErrorIgnoreLevel = kWarning;
     checkrunlist(pixelupdateruns,{},Year);
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
 
     const map<TString,int> nlayers{ {"BPIX", 4}, {"FPIX", 3}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
+
+    
+
     vector<pair<int,double>> lumiIOVpairs;
     if(showlumi)lumiIOVpairs = lumiperIOV(IOVlist,Year);
 
@@ -652,7 +659,7 @@ void PlotDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, str
                 THStack *mh = new THStack(structure,structure);
 		size_t igeom=0;
                 for (string geometry: geometries) {
-                    TString name = getName(structure, layer, geometry);
+                    TString name = Variable+"_"+getName(structure, layer, geometry);
                     TGraphErrors *g = dynamic_cast<TGraphErrors*> (in->Get(name+"_"+variables.at(i)));
 		    g->SetName(name+"_"+variables.at(i));
                     if(i>=8){
@@ -691,15 +698,25 @@ void PlotDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, str
 
 		double max=6;
                 double min=-4;
-                double range=max-min;
-                if(((variable=="sigma"||variable=="sigmaplus"||variable=="sigmaminus"||variable=="sigmadeltamu")&&range>=2)){
-                    mg->SetMaximum(4);
-                    mg->SetMinimum(-2);
-                }else{
-                    mg->SetMaximum(max+range*0.1);
+		if(Variable=="DrmsNR"){
+		  if(variable.Contains("delta")){
+		    max=0.2;
+		    min=-0.1;
+		  }else{
+		    max=1.2;
+		    min=0.4;
+		  }
+		}
+                double range=max-min;	
+		  
+		if(((variable=="sigma"||variable=="sigmaplus"||variable=="sigmaminus"||variable=="sigmadeltamu")&&range>=2)){
+		  mg->SetMaximum(4);
+		  mg->SetMinimum(-2);
+		}else{
+		  mg->SetMaximum(max+range*0.1);
                     mg->SetMinimum(min-range*0.3);
-                }
-
+		}
+		
                 if(i<8){
 		  mg->Draw("a");
                 }else{
@@ -739,19 +756,19 @@ void PlotDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, str
 		structtitle+="}";
                 PixelUpdateLines(c, Year, showlumi, pixelupdateruns);
 
-		TPaveText *CMSworkInProgress = new TPaveText(0,7.1,2.5,8,"nb");
+		TPaveText *CMSworkInProgress = new TPaveText(0,mg->GetYaxis()->GetXmax()+range*0.02,2.5,mg->GetYaxis()->GetXmax()+range*0.12,"nb");
 		CMSworkInProgress->AddText("#scale[1.1]{CMS} #bf{Internal}");
 		CMSworkInProgress->SetTextAlign(12);
 		CMSworkInProgress->SetTextSize(0.04);
 		CMSworkInProgress->SetFillColor(10);
 		CMSworkInProgress->Draw();
-		TPaveText *TopRightCorner = new TPaveText(0.95*(mg->GetXaxis()->GetXmax()),7.1,(mg->GetXaxis()->GetXmax()),8,"nb");
+		TPaveText *TopRightCorner = new TPaveText(0.95*(mg->GetXaxis()->GetXmax()),mg->GetYaxis()->GetXmax()+range*0.02,(mg->GetXaxis()->GetXmax()),mg->GetYaxis()->GetXmax()+range*0.12,"nb");
 		TopRightCorner->AddText(Year+" pp collisions");
 		TopRightCorner->SetTextAlign(32);
 		TopRightCorner->SetTextSize(0.04);
 		TopRightCorner->SetFillColor(10);
 		TopRightCorner->Draw();
-		TPaveText *structlabel = new TPaveText(0.95*(mg->GetXaxis()->GetXmax()),-6.9,0.99*(mg->GetXaxis()->GetXmax()),-6,"nb");
+		TPaveText *structlabel = new TPaveText(0.95*(mg->GetXaxis()->GetXmax()),mg->GetYaxis()->GetXmin()+range*0.02,0.99*(mg->GetXaxis()->GetXmax()),mg->GetYaxis()->GetXmin()+range*0.12,"nb");
 		structlabel->AddText(structtitle.Data());
 		structlabel->SetTextAlign(32);
 		structlabel->SetTextSize(0.04);
@@ -772,6 +789,7 @@ void PlotDMRTrends(vector<int> IOVlist, vector<string> labels, TString Year, str
                 TString printfile=outputdir;
 		if(!(outputdir.EndsWith("/")))outputdir+="/";
 		for(TString label : labels){printfile+=label;printfile+="_";}
+		printfile+=Variable;printfile+="_";
 		printfile+=variable+structandlayer;
 		c->SaveAs(printfile+".pdf");
                 c->SaveAs(printfile+".eps");
@@ -805,7 +823,7 @@ int main (int argc, char * argv[]) {
 
 //vector<int>IOVlist={290543, 296702, 296966, 297224, 297281, 297429, 297467, 297484, 297494, 297503, 297557, 297599, 297620, 297660, 297670, 298678, 298996, 299062, 299096, 299184, 299327, 299368, 299381, 299443, 299480, 299592, 299594, 299649, 300087, 300155, 300233, 300237, 300280, 300364, 300389, 300399, 300459, 300497, 300515, 300538, 300551, 300574, 300636, 300673, 300780, 300806, 300812, 301046, 301417, 302131, 302573, 302635, 303825, 303998, 304170, 304505, 304672, 305040, 305081};//UL17
 	  //vector<int>IOVlist={297049,297179,297224,297283,297429,297467,297484,297503,297557,297598,297620,297660,297670,298996,299062,299096,299184,299327,299368,299370,299381,299443,299480,299592,299594,299649,300087,300155,300233,300237,300280,300364,300389,300399,300459,300497,300515,300551,300574,300636,300673,300780,300806,300812,301046,301417,302131,302573,302635,303825,303998,304170,304505,304672,305040,305113,305178,305188,305204,305809,305842,305898,305967,306029,306042,306169,306417,306459,306936,307082};
-	        vector<int>IOVlist={314881,315257,315488,315489,315506,316239,316271,316361,316363,316378,316456,316470,316505,316569,316665,316758,317080,317182,317212,317295,317339,317382,317438,317527,317661,317664,318712,319337,319460,320841,320854,320856,320888,320916,320933,320980,321009,321119,321134,321164,321261,321294,321310,321393,321397,321431,321461,321710,321735,321773,321774,321778,321820,321831,321880,321960,322014,322510,322603,323232,323423,323472,323475,323693,323794,323976,324202,324206,324245,324729,324764,324840,324999,325097,325110};
+	        vector<int>IOVlist={314881, 315257, 315488, 315489, 315506, 316239, 316271, 316361, 316363, 316378, 316456, 316470, 316505, 316569, 316665, 316758, 317080, 317182, 317212, 317295, 317339, 317382, 317438, 317527, 317661, 317664, 318712, 319337, 319460, 320841, 320854, 320856, 320888, 320916, 320933, 320980, 321009, 321119, 321134, 321164, 321261, 321294, 321310, 321393, 321397, 321431, 321461, 321710, 321735, 321773, 321774, 321778, 321820, 321831, 321880, 321960, 322014, 322510, 322603, 323232, 323423, 323472, 323475, 323693, 323794, 323976, 324202, 324206, 324245, 324729, 324764, 324840, 324999, 325097, 325110};
 	        vector<int> pixelupdateruns {316758, 317527,317661,317664,318227, 320377};//2018
 		//	vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898};//2017
 
@@ -826,10 +844,10 @@ int main (int argc, char * argv[]) {
 				  {"94X_dataRun2_ReReco_EOY17_v2", "106X_dataRun2_v4"},
 				  {kBlack,kRed}, "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/DMRTrends/test/", true, pixelupdateruns, true, true); */
 		
-			DMRtrends(IOVlist,{"minbias"},"2018", "/afs/cern.ch/user/h/hpeterse/commonValidation/results/hpeterse/UL2018data_with_condor/",
+		DMRtrends(IOVlist, {"median", "DrmsNR"}, {"minbias"},"2018", "/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/adewit/UL18_DMR_MB_eoj_v3/",
 				  //{"SG EOY17",  "1st step pixel strip","2nd step panels ladders", "2st step hybrid", "3rd step"},
-				  {"step1 with SD","hybrid-step-2 on mp3124m1","1-step hybrid no SD","1-step hybrid with SD","1-step hybrid from 2017","mid18 rereco"},
-				  {kGreen,kMagenta,kCyan,kBlue,kOrange,kRed}, "/afs/cern.ch/user/h/hpeterse/commonValidation/results/acardini/DMRs/DMRTrends/minbias/", true, pixelupdateruns, true, true); /*
+				  {"1-step hybrid", "mid18 rereco", "counter twist"},
+				  {kBlue, kBlack,kGreen+3}, "/afs/cern.ch/user/a/acardini/commonValidation/results/acardini/DMRs/DMRTrends/test/", true, pixelupdateruns, true, true); /*
 				DMRtrends(IOVlist,{"singlemuon"},"2018", "/afs/cern.ch/user/h/hpeterse/commonValidation/results/hpeterse/UL2018data_with_condor/",
 				  //{"SG EOY17",  "1st step pixel strip","2nd step panels ladders", "2st step hybrid", "3rd step"},
 				  {"step1 with SD","hybrid-step-2 on mp3124m1","1-step hybrid no SD","1-step hybrid with SD","1-step hybrid from 2017","mid18 rereco"},
@@ -844,22 +862,26 @@ int main (int argc, char * argv[]) {
 		
 		return 0;
 	}
-	else if (argc < 11) {
+	else if (argc < 12) {
 		cout << "DMRtrends IOVlist labels Year pathtoDMRs geometriesandcolourspairs outputdirectory pixelupdatelist showpixelupdate showlumi FORCE" << endl;
 		
 		return 1;
 	}
 
 	TString runlist = argv[1],
-	        all_labels = argv[2],
-	        Year = argv[3],
-		pathtoDMRs = argv[4],
-		geometrieandcolours = argv[5], //name1:title1:color1,name2:title2:color2,name3:title3:color3
-	        outputdirectory = argv[6],
-	        pixelupdatelist = argv[7];
-	bool	showpixelupdate = argv[8],
-		showlumi = argv[9],
-		FORCE = argv[10];
+	        all_variables = argv[2],
+	        all_labels = argv[3],
+	        Year = argv[4],
+		pathtoDMRs = argv[5],
+		geometrieandcolours = argv[6], //name1:title1:color1,name2:title2:color2,name3:title3:color3
+	        outputdirectory = argv[7],
+	        pixelupdatelist = argv[8];
+	bool	showpixelupdate = argv[9],
+		showlumi = argv[10],
+		FORCE = argv[11];
+	TObjArray *vararray = all_variables.Tokenize(",");
+	vector<string> Variables;
+	for(int i=0; i < vararray->GetEntries(); i++)Variables.push_back((string)(vararray->At(i)->GetName()));
 	TObjArray *labelarray = all_labels.Tokenize(",");
 	vector<string> labels;
 	for(int i=0; i < labelarray->GetEntries(); i++)labels.push_back((string)(labelarray->At(i)->GetName()));
@@ -878,7 +900,7 @@ int main (int argc, char * argv[]) {
 		geometries.push_back(geomandcolourvec->At(0)->GetName());
 		colours.push_back(ColorParser(geomandcolourvec->At(1)->GetName()));
 	}
-	DMRtrends(IOVlist,labels,Year,pathtoDMRs.Data(),geometries,colours,outputdirectory.Data(),showpixelupdate, pixelupdateruns,showlumi,FORCE);
+	DMRtrends(IOVlist,Variables,labels,Year,pathtoDMRs.Data(),geometries,colours,outputdirectory.Data(),showpixelupdate, pixelupdateruns,showlumi,FORCE);
 
 	
 	return 0; 
