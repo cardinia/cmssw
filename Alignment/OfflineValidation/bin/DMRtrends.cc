@@ -101,6 +101,7 @@ struct Point {
 
 TString getName (TString structure, int layer, TString geometry);
 TH1F* ConvertToHist(TGraphErrors *g); 
+const map<TString,int> numberOfLayers(TString Year="2018");
 vector<int> runlistfromlumifile(TString Year="2018"); 
 bool checkrunlist(vector<int> runs, vector<int> IOVlist={}, TString Year="2018");
 TString lumifileperyear(TString Year="2018", string RunOrIOV="IOV");
@@ -177,9 +178,22 @@ TString getName (TString structure, int layer, TString geometry){
 
     return name;
 };
+
+/*! \fn numberOfLayers
+ *  \brief Function used to retrieve a map containing the number of layers per subdetector
+ */
+
+const map<TString,int> numberOfLayers(TString Year) {
+  if(Year=="2016") return { {"BPIX", 3}, {"FPIX", 2}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
+  else return { {"BPIX", 4}, {"FPIX", 3}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
+
+}
+
+
 /// TO DO: once the information on the luminosity is passed through the root files this method needs to be changed
 /*! \fn lumifileperyear
  *  \brief Function to retrieve the file with luminosity per run/IOV
+ *         The use of a lumi-per-IOV file is deprecated, but can still be useful for debugging
  */
 
 TString lumifileperyear(TString Year, string RunOrIOV){
@@ -189,8 +203,8 @@ TString lumifileperyear(TString Year, string RunOrIOV){
  	exit(EXIT_FAILURE);
   }
   LumiFile+=RunOrIOV;
-  if(Year!="2017"&&Year!="2018"){
-        cout << "ERROR: Only 2017 and 2018 lumi-per-run/IOV are available, please check!"<<endl;
+  if(Year!="2016"&&Year!="2017"&&Year!="2018"){
+        cout << "ERROR: Only 2016, 2017 and 2018 lumi-per-run files are available, please check!"<<endl;
  	exit(EXIT_FAILURE);
   }
   LumiFile+=Year;
@@ -204,7 +218,13 @@ TString lumifileperyear(TString Year, string RunOrIOV){
  */
 
 vector<int> runlistfromlumifile(TString Year){
-    TGraph * scale = new TGraph((lumifileperyear(Year,"run")).Data());
+    TString filename =lumifileperyear(Year,"run");
+    fs::path path(filename.Data());
+    if(fs::is_empty(path)){
+        cout << "ERROR: Empty file " << path.c_str() << endl;
+ 	exit(EXIT_FAILURE);
+    }
+    TGraph * scale = new TGraph(filename.Data());
     double *xscale = scale->GetX();
     size_t N = scale->GetN();
     vector<int> runs;
@@ -311,8 +331,8 @@ void compileDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labe
 
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
 
-    const map<TString,int> nlayers{ {"BPIX", 4}, {"FPIX", 3}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
-   
+    const map<TString,int> nlayers=numberOfLayers(Year);
+
     float ScaleFactor=DMRFactor;
     if(Variable=="DrmsNR")    ScaleFactor=1;
 
@@ -563,8 +583,6 @@ vector<pair<int,double>> lumiperIOV(vector<int> IOVlist, TString Year){
     while(i<=N){
         double run=0;
 	double lumi=0.;
-	//g->GetPoint(i,run,yvalue);
-	
 	if(i!=N)run=IOVlist.at(i);
 	else run=0;
 	for(size_t j=index;j<Nscale;j++){
@@ -575,7 +593,6 @@ vector<pair<int,double>> lumiperIOV(vector<int> IOVlist, TString Year){
 	}
 	if(i==0) lumiperIOV.push_back(make_pair(0,lumi));
 	else lumiperIOV.push_back(make_pair(IOVlist.at(i-1),lumi));
-	//cout << lumiperIOV.at(i).first << " " << lumiperIOV.at(i).second <<endl;
 	++i;
     } 
     //for debugging:
@@ -629,9 +646,7 @@ void PlotDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labels,
     checkrunlist(pixelupdateruns,{},Year);
     vector<TString> structures { "BPIX", "BPIX_y", "FPIX", "FPIX_y", "TIB", "TID", "TOB", "TEC"};
 
-    const map<TString,int> nlayers{ {"BPIX", 4}, {"FPIX", 3}, {"TIB", 4}, {"TID", 3}, {"TOB", 6}, {"TEC", 9} };
-
-    
+    const map<TString,int> nlayers=numberOfLayers(Year); 
 
     vector<pair<int,double>> lumiIOVpairs;
     if(showlumi)lumiIOVpairs = lumiperIOV(IOVlist,Year);
@@ -648,6 +663,7 @@ void PlotDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labels,
         for (int layer=0; layer<=layersnumber;layer++){
             vector<TString> variables {"mu", "sigma", "muplus", "sigmaplus", "muminus", "sigmaminus", "deltamu", "sigmadeltamu", "musigma", "muplussigmaplus", "muminussigmaminus", "deltamusigmadeltamu"};
             vector<string> YaxisNames { "#mu [#mum]", "#sigma_{#mu} [#mum]", "#mu outward [#mum]", "#sigma_{#mu outward} [#mum]", "#mu inward [#mum]", "#sigma_{#mu inward} [#mum]", "#Delta#mu [#mum]", "#sigma_{#Delta#mu} [#mum]", "#mu [#mum]", "#mu outward [#mum]", "#mu inward [#mum]", "#Delta#mu [#mum]",}; 
+	    if(Variable=="DrmsNR")YaxisNames= { "RMS(x'_{pred}-x'_{hit} /#sigma)", "#sigma_{RMS(x'_{pred}-x'_{hit} /#sigma)}", "RMS(x'_{pred}-x'_{hit} /#sigma) outward", "#sigma_{#mu outward}", "RMS(x'_{pred}-x'_{hit} /#sigma) inward", "#sigma_{RMS(x'_{pred}-x'_{hit} /#sigma) inward}", "#DeltaRMS(x'_{pred}-x'_{hit} /#sigma)", "#sigma_{#DeltaRMS(x'_{pred}-x'_{hit} /#sigma)}", "RMS(x'_{pred}-x'_{hit} /#sigma)", "RMS(x'_{pred}-x'_{hit} /#sigma) outward", "RMS(x'_{pred}-x'_{hit} /#sigma) inward", "#DeltaRMS(x'_{pred}-x'_{hit} /#sigma)",};
 	    //For debugging purposes we still might want to have a look at plots for a variable without errors, once ready for the PR those variables will be removed and the iterator will start from 0
             for(size_t i=0; i < variables.size(); i++){
                 TString variable= variables.at(i);
@@ -700,8 +716,8 @@ void PlotDMRTrends(vector<int> IOVlist, TString Variable, vector<string> labels,
                 double min=-4;
 		if(Variable=="DrmsNR"){
 		  if(variable.Contains("delta")){
-		    max=0.2;
-		    min=-0.1;
+		    max=0.3;
+		    min=-0.2;
 		  }else{
 		    max=1.2;
 		    min=0.4;
