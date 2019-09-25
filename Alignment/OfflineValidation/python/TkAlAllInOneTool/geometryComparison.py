@@ -173,13 +173,13 @@ class GeometryComparison(GenericValidation):
                      "root -l -b -q TkAl3DVisualization_.oO[common]Oo._.oO[name]Oo..C+\n")
                 if  self.copyImages:
                    repMap["runComparisonScripts"] += \
-                       ("rfmkdir -p .oO[datadir]Oo./.oO[name]Oo."
+                       ("mkdir -p .oO[datadir]Oo./.oO[name]Oo."
                         ".Comparison_common"+name+"_Images\n")
                    repMap["runComparisonScripts"] += \
-                       ("rfmkdir -p .oO[datadir]Oo./.oO[name]Oo."
+                       ("mkdir -p .oO[datadir]Oo./.oO[name]Oo."
                         ".Comparison_common"+name+"_Images/Translations\n")
                    repMap["runComparisonScripts"] += \
-                       ("rfmkdir -p .oO[datadir]Oo./.oO[name]Oo."
+                       ("mkdir -p .oO[datadir]Oo./.oO[name]Oo."
                         ".Comparison_common"+name+"_Images/Rotations\n")
 
 
@@ -241,7 +241,7 @@ class GeometryComparison(GenericValidation):
                         +".root\",\".oO[name]Oo.."
                         +name+"_ArrowPlots\")'\n")
                    repMap["runComparisonScripts"] += \
-                       ("rfmkdir -p .oO[datadir]Oo./.oO[name]Oo."
+                       ("mkdir -p .oO[datadir]Oo./.oO[name]Oo."
                         ".Comparison_common"+name+"_Images/ArrowPlots\n")
                    repMap["runComparisonScripts"] += \
                        ("find .oO[name]Oo.."+name+"_ArrowPlots "
