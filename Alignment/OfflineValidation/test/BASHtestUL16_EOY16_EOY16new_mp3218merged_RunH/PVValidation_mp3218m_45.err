@@ -1,0 +1,45 @@
+26-Sep-2019 12:51:07 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016H/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/B2E7C156-CE11-E911-92BC-0CC47A78A4B0.root
+26-Sep-2019 12:51:10 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016H/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/B2E7C156-CE11-E911-92BC-0CC47A78A4B0.root
+Begin processing the 1st record. Run 282924, Event 730170, LumiSection 1 on stream 0 at 26-Sep-2019 12:51:17.027 CEST
+Begin processing the 1001st record. Run 283042, Event 7134470, LumiSection 4 on stream 0 at 26-Sep-2019 12:52:44.982 CEST
+Begin processing the 2001st record. Run 283358, Event 1715365551, LumiSection 954 on stream 0 at 26-Sep-2019 12:52:47.298 CEST
+Begin processing the 3001st record. Run 283358, Event 1722109923, LumiSection 959 on stream 0 at 26-Sep-2019 12:52:48.833 CEST
+Begin processing the 4001st record. Run 283413, Event 9827034, LumiSection 4 on stream 0 at 26-Sep-2019 12:52:49.725 CEST
+Begin processing the 5001st record. Run 283415, Event 6902280, LumiSection 3 on stream 0 at 26-Sep-2019 12:52:50.836 CEST
+Begin processing the 6001st record. Run 283548, Event 277517807, LumiSection 284 on stream 0 at 26-Sep-2019 12:52:52.667 CEST
+Begin processing the 7001st record. Run 283675, Event 718410, LumiSection 1 on stream 0 at 26-Sep-2019 12:52:54.625 CEST
+Begin processing the 8001st record. Run 283676, Event 12927180, LumiSection 6 on stream 0 at 26-Sep-2019 12:52:56.599 CEST
+Begin processing the 9001st record. Run 283820, Event 2694322266, LumiSection 1533 on stream 0 at 26-Sep-2019 12:52:58.207 CEST
+Begin processing the 10001st record. Run 283835, Event 4970775, LumiSection 3 on stream 0 at 26-Sep-2019 12:53:02.888 CEST
+Begin processing the 11001st record. Run 283835, Event 10944984, LumiSection 7 on stream 0 at 26-Sep-2019 12:53:06.473 CEST
+Begin processing the 12001st record. Run 283835, Event 20160924, LumiSection 12 on stream 0 at 26-Sep-2019 12:53:08.356 CEST
+Begin processing the 13001st record. Run 283885, Event 2986444771, LumiSection 1713 on stream 0 at 26-Sep-2019 12:53:09.762 CEST
+Begin processing the 14001st record. Run 283885, Event 2993740003, LumiSection 1718 on stream 0 at 26-Sep-2019 12:53:11.591 CEST
+Begin processing the 15001st record. Run 283885, Event 3001388363, LumiSection 1722 on stream 0 at 26-Sep-2019 12:53:13.333 CEST
+Begin processing the 16001st record. Run 284006, Event 539213105, LumiSection 372 on stream 0 at 26-Sep-2019 12:53:17.769 CEST
+Begin processing the 17001st record. Run 284006, Event 546689182, LumiSection 376 on stream 0 at 26-Sep-2019 12:53:19.741 CEST
+Begin processing the 18001st record. Run 284006, Event 553147259, LumiSection 380 on stream 0 at 26-Sep-2019 12:53:21.611 CEST
+Begin processing the 19001st record. Run 284042, Event 195649232, LumiSection 121 on stream 0 at 26-Sep-2019 12:53:23.228 CEST
+Begin processing the 20001st record. Run 284042, Event 204457117, LumiSection 126 on stream 0 at 26-Sep-2019 12:53:24.677 CEST
+26-Sep-2019 12:53:25 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016H/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/B2E7C156-CE11-E911-92BC-0CC47A78A4B0.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[7.092MB/7.092MB][100%][==================================================][7.092MB/s]  [7.092MB/7.092MB][100%][==================================================][7.092MB/s]  

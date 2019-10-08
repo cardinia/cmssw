@@ -1,0 +1,36 @@
+26-Sep-2019 12:50:45 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/4CDC620E-6912-E911-A967-0CC47A4D76D6.root
+26-Sep-2019 12:50:48 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/4CDC620E-6912-E911-A967-0CC47A4D76D6.root
+Begin processing the 1st record. Run 278289, Event 1229657, LumiSection 1 on stream 0 at 26-Sep-2019 12:50:56.394 CEST
+Begin processing the 1001st record. Run 278289, Event 8603322, LumiSection 8 on stream 0 at 26-Sep-2019 12:54:20.509 CEST
+Begin processing the 2001st record. Run 278289, Event 16340520, LumiSection 13 on stream 0 at 26-Sep-2019 12:57:29.575 CEST
+Begin processing the 3001st record. Run 278289, Event 23871243, LumiSection 17 on stream 0 at 26-Sep-2019 13:00:37.729 CEST
+Begin processing the 4001st record. Run 278289, Event 33246567, LumiSection 21 on stream 0 at 26-Sep-2019 13:03:48.787 CEST
+Begin processing the 5001st record. Run 278289, Event 41912514, LumiSection 25 on stream 0 at 26-Sep-2019 13:07:02.965 CEST
+Begin processing the 6001st record. Run 278289, Event 48925026, LumiSection 30 on stream 0 at 26-Sep-2019 13:09:58.769 CEST
+Begin processing the 7001st record. Run 278289, Event 55747797, LumiSection 33 on stream 0 at 26-Sep-2019 13:12:58.265 CEST
+Begin processing the 8001st record. Run 278289, Event 62746971, LumiSection 37 on stream 0 at 26-Sep-2019 13:16:05.956 CEST
+Begin processing the 9001st record. Run 278289, Event 71931699, LumiSection 41 on stream 0 at 26-Sep-2019 13:19:21.844 CEST
+Begin processing the 10001st record. Run 278289, Event 80847131, LumiSection 45 on stream 0 at 26-Sep-2019 13:22:20.340 CEST
+Begin processing the 11001st record. Run 278289, Event 89029988, LumiSection 49 on stream 0 at 26-Sep-2019 13:25:12.925 CEST
+26-Sep-2019 13:27:28 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/4CDC620E-6912-E911-A967-0CC47A4D76D6.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[9.015MB/9.015MB][100%][==================================================][9.015MB/s]  [9.015MB/9.015MB][100%][==================================================][9.015MB/s]  

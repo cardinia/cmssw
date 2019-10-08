@@ -1,0 +1,44 @@
+000 (3196554.003.000) 09/27 21:33:44 Job submitted from host: <137.138.44.75:9618?addrs=137.138.44.75-9618+[2001-1458-d00-1a--b]-9618&alias=bigbird14.cern.ch&noUDP&sock=schedd_2873_37ae_40>
+...
+040 (3196554.003.000) 09/27 21:43:17 Started transferring input files
+	Transferring to host: <137.138.43.42:9618?addrs=137.138.43.42-9618+[2001-1458-d00-23--39]-9618&noUDP&sock=20099_504a_109128>
+...
+040 (3196554.003.000) 09/27 21:43:17 Finished transferring input files
+...
+001 (3196554.003.000) 09/27 21:43:17 Job executing on host: <137.138.43.42:9618?addrs=137.138.43.42-9618+[2001-1458-d00-23--39]-9618&noUDP&sock=19587_a19c_3>
+...
+006 (3196554.003.000) 09/27 21:43:26 Image size of job updated: 243244
+	122  -  MemoryUsage of job (MB)
+	124792  -  ResidentSetSize of job (KB)
+...
+006 (3196554.003.000) 09/27 21:48:27 Image size of job updated: 616800
+	596  -  MemoryUsage of job (MB)
+	610200  -  ResidentSetSize of job (KB)
+...
+006 (3196554.003.000) 09/27 21:53:27 Image size of job updated: 617972
+	598  -  MemoryUsage of job (MB)
+	611372  -  ResidentSetSize of job (KB)
+...
+006 (3196554.003.000) 09/27 21:58:27 Image size of job updated: 617972
+	598  -  MemoryUsage of job (MB)
+	611480  -  ResidentSetSize of job (KB)
+...
+040 (3196554.003.000) 09/27 21:59:44 Started transferring output files
+...
+040 (3196554.003.000) 09/27 21:59:44 Finished transferring output files
+...
+005 (3196554.003.000) 09/27 21:59:44 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 00:15:23, Sys 0 00:00:07  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:15:23, Sys 0 00:00:07  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	7309  -  Run Bytes Sent By Job
+	1018  -  Run Bytes Received By Job
+	7309  -  Total Bytes Sent By Job
+	1018  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :                 1           
+	   Disk (KB)            :     8397        1   2146053 
+	   Memory (MB)          :      598     2000      2000 
+...

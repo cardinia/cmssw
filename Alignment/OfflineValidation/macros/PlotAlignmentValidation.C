@@ -1850,8 +1850,8 @@ plotDMRHistogram(PlotAlignmentValidation::DMRPlotInfo& plotinfo, int direction, 
   //Create a name for the histogram that summarize all relevant information: name of the geometry, variable plotted, structure, layer, and whether the modules considered point inward or outward.
 
   TString histoname="";
-  if(plotinfo.variable.find("median")!=string::npos)histoname="median";
-  else if(plotinfo.variable.find("rmsNorm")!=string::npos)histoname="DrmsNR";
+  if(plotinfo.variable == "medianX" || plotinfo.variable == "medianY" )histoname="median";
+  else if(plotinfo.variable == "rmsNormX" || plotinfo.variable == "rmsNormY")histoname="DrmsNR";
   histoname+="_";  histoname+=plotinfo.vars->getName();
   histoname.ReplaceAll(" ","_");
   histoname+="_";  histoname+=subdet.c_str();

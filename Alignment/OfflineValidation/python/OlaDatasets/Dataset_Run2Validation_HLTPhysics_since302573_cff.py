@@ -1,0 +1,51 @@
+import FWCore.ParameterSet.Config as cms
+import FWCore.PythonUtilities.LumiList as LumiList
+
+lumiSecs = cms.untracked.VLuminosityBlockRange()
+goodLumiSecs = LumiList.LumiList(filename = '/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/MP/MPproduction/datasetfiles/UltraLegacy/2017/brute_force_method_v2/HLTPhysics_Run2017ABCDEFGH-TkAlMinBias-PromptReco-v123_ALCARECO/Golden.json').getCMSSWString().split(',')
+readFiles = cms.untracked.vstring()
+source = cms.Source("PoolSource",
+                    lumisToProcess = lumiSecs,
+                    fileNames = readFiles)
+readFiles.extend([
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/1C5A6908-2898-E711-AB95-02163E012317.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/597/00000/F0245847-BA98-E711-A0B7-02163E01A54C.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/085EFA43-2598-E711-9E4C-02163E0133EF.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/DA06D388-2398-E711-BD66-02163E0138FE.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/634/00000/B8E3D7EA-2D99-E711-B670-02163E011B27.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/620/00000/8833FCA1-BA98-E711-9AD7-02163E0129AC.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/613/00000/662BB082-B498-E711-871E-02163E014291.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/0C352C40-8A98-E711-B2C3-02163E019E2E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/580/00000/6A5503FD-2798-E711-B4EF-02163E019B54.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/575/00000/1E4C2F77-2798-E711-829F-02163E011DD8.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/606/00000/3AA07FA4-AC98-E711-BA92-02163E014241.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/574/00000/3CFB34C4-2598-E711-86B7-02163E01433E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/597/00000/2AE7B243-C198-E711-9F7C-02163E019BF9.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/597/00000/B42EDC8D-B898-E711-A335-02163E013553.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/597/00000/B492F665-B798-E711-84AD-02163E019E82.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/0248F4BB-3898-E711-BA6C-02163E0133BC.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/619/00000/8C3C5182-B498-E711-94B2-02163E014115.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/623/00000/5E58C8F6-C198-E711-AE94-02163E01A43B.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/621/00000/E2817086-BE98-E711-9C28-02163E01A25C.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/627/00000/18363C29-E398-E711-A99A-02163E01A5B6.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/A2392FF8-8498-E711-A082-02163E0143AD.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/634/00000/E20183C2-3099-E711-84C0-02163E01444E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/626/00000/D6DFE533-DB98-E711-B8D8-02163E012166.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/634/00000/F4F677CF-2799-E711-90D6-02163E0133B7.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/634/00000/2C9666FD-2999-E711-850C-02163E01A682.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/624/00000/0208B4AA-C998-E711-9EA8-02163E01A458.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/608/00000/8CC56A0E-AE98-E711-93FF-02163E01181B.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/634/00000/DCD60DA0-3F99-E711-817C-02163E01338C.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/592/00000/122D3C7C-3198-E711-B7F5-02163E01A799.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/D6C43FB4-2198-E711-A2CF-02163E019E89.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/CCED2CDE-8198-E711-B67B-02163E01380F.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/594/00000/DC02D2FE-3798-E711-81CA-02163E019B76.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/06C4F1B3-9598-E711-805B-02163E01A52E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/1EC43767-9D98-E711-BD42-02163E01A27E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/573/00000/DC3B822D-2A98-E711-A33F-02163E014767.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/604/00000/88112154-AB98-E711-9B8E-02163E0135FB.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/596/00000/9666D470-9198-E711-B5CB-02163E019B8E.root',
+'/store/data/Run2017D/HLTPhysics/ALCARECO/TkAlMinBias-PromptReco-v1/000/302/597/00000/6E4013BF-CA98-E711-A65A-02163E01A22E.root'
+])
+lumiSecs.extend(goodLumiSecs)
+maxEvents = cms.untracked.PSet(input = cms.untracked.int32(-1))

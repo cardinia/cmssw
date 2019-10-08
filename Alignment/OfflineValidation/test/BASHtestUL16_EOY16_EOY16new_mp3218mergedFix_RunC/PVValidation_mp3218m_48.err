@@ -1,0 +1,34 @@
+27-Sep-2019 22:13:13 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+27-Sep-2019 22:13:49 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+Begin processing the 1st record. Run 276064, Event 2295899, LumiSection 1 on stream 0 at 27-Sep-2019 22:16:26.551 CEST
+Begin processing the 1001st record. Run 276064, Event 15745072, LumiSection 6 on stream 0 at 27-Sep-2019 22:48:03.658 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 27-Sep-2019 22:49:15 CEST  Run: 276064 Event: 25508275
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 181
+%MSG
+Begin processing the 2001st record. Run 276064, Event 32016567, LumiSection 12 on stream 0 at 27-Sep-2019 22:50:09.718 CEST
+Begin processing the 3001st record. Run 276064, Event 46837900, LumiSection 18 on stream 0 at 27-Sep-2019 22:52:19.698 CEST
+27-Sep-2019 22:53:43 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       1        1
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          276064/25508275                   
+    2 fileAction           PostGlobalEndRun                  
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 1                   1
+System                  3                   3
+
+dropped waiting message count 0
+[8.141MB/8.141MB][100%][==================================================][8.141MB/s]  [8.141MB/8.141MB][100%][==================================================][8.141MB/s]  

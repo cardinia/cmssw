@@ -1,0 +1,53 @@
+26-Sep-2019 12:52:42 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/AAB49B2C-BE07-E911-BA4D-1866DA7F8F5C.root
+26-Sep-2019 12:52:46 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/AAB49B2C-BE07-E911-BA4D-1866DA7F8F5C.root
+Begin processing the 1st record. Run 276092, Event 32568512, LumiSection 74 on stream 0 at 26-Sep-2019 12:52:56.225 CEST
+Begin processing the 1001st record. Run 276092, Event 42870315, LumiSection 81 on stream 0 at 26-Sep-2019 12:57:30.069 CEST
+Begin processing the 2001st record. Run 276092, Event 54031937, LumiSection 86 on stream 0 at 26-Sep-2019 13:01:16.856 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:01:47 CEST  Run: 276092 Event: 54568016
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 0
+%MSG
+Begin processing the 3001st record. Run 276092, Event 63854461, LumiSection 95 on stream 0 at 26-Sep-2019 13:04:31.743 CEST
+Begin processing the 4001st record. Run 276092, Event 72233440, LumiSection 101 on stream 0 at 26-Sep-2019 13:08:21.999 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:08:49 CEST  Run: 276092 Event: 74033529
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 2244
+%MSG
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:10:17 CEST  Run: 276092 Event: 76220274
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 0
+%MSG
+Begin processing the 5001st record. Run 276092, Event 81564805, LumiSection 106 on stream 0 at 26-Sep-2019 13:12:30.327 CEST
+Begin processing the 6001st record. Run 276092, Event 92112268, LumiSection 111 on stream 0 at 26-Sep-2019 13:16:28.738 CEST
+Begin processing the 7001st record. Run 276092, Event 100665228, LumiSection 116 on stream 0 at 26-Sep-2019 13:20:49.309 CEST
+Begin processing the 8001st record. Run 276092, Event 111827216, LumiSection 121 on stream 0 at 26-Sep-2019 13:24:53.658 CEST
+Begin processing the 9001st record. Run 276092, Event 119707178, LumiSection 126 on stream 0 at 26-Sep-2019 13:29:10.167 CEST
+Begin processing the 10001st record. Run 276092, Event 130336150, LumiSection 131 on stream 0 at 26-Sep-2019 13:33:13.624 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:35:49 CEST  Run: 276092 Event: 137157101
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 3352
+%MSG
+Begin processing the 11001st record. Run 276092, Event 139844133, LumiSection 137 on stream 0 at 26-Sep-2019 13:37:32.669 CEST
+Begin processing the 12001st record. Run 276092, Event 149629615, LumiSection 142 on stream 0 at 26-Sep-2019 13:41:45.203 CEST
+Begin processing the 13001st record. Run 276092, Event 159851226, LumiSection 147 on stream 0 at 26-Sep-2019 13:45:19.768 CEST
+26-Sep-2019 13:46:29 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/AAB49B2C-BE07-E911-BA4D-1866DA7F8F5C.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       4        4
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          276092/54568016  276092/74033529  276092/137157101
+    2 fileAction           PostGlobalEndRun                  
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 4                   4
+System                  3                   3
+
+dropped waiting message count 0
+[9.051MB/9.051MB][100%][==================================================][9.051MB/s]  [9.051MB/9.051MB][100%][==================================================][9.051MB/s]  

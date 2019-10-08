@@ -1,0 +1,36 @@
+27-Sep-2019 21:42:21 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/B88F5648-4F07-E911-9D76-782BCB4FBF56.root
+27-Sep-2019 21:42:25 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/B88F5648-4F07-E911-9D76-782BCB4FBF56.root
+Begin processing the 1st record. Run 273592, Event 1722080, LumiSection 1 on stream 0 at 27-Sep-2019 21:42:37.689 CEST
+Begin processing the 1001st record. Run 273592, Event 27622597, LumiSection 15 on stream 0 at 27-Sep-2019 21:44:30.896 CEST
+Begin processing the 2001st record. Run 273592, Event 58389052, LumiSection 30 on stream 0 at 27-Sep-2019 21:45:12.810 CEST
+Begin processing the 3001st record. Run 273592, Event 88129350, LumiSection 45 on stream 0 at 27-Sep-2019 21:45:50.083 CEST
+Begin processing the 4001st record. Run 273592, Event 117804587, LumiSection 60 on stream 0 at 27-Sep-2019 21:46:28.691 CEST
+Begin processing the 5001st record. Run 273592, Event 145302031, LumiSection 74 on stream 0 at 27-Sep-2019 21:47:10.279 CEST
+Begin processing the 6001st record. Run 273592, Event 176118318, LumiSection 89 on stream 0 at 27-Sep-2019 21:47:50.002 CEST
+Begin processing the 7001st record. Run 273592, Event 206363035, LumiSection 104 on stream 0 at 27-Sep-2019 21:48:31.860 CEST
+Begin processing the 8001st record. Run 273592, Event 235670972, LumiSection 119 on stream 0 at 27-Sep-2019 21:49:11.314 CEST
+Begin processing the 9001st record. Run 273592, Event 265508728, LumiSection 134 on stream 0 at 27-Sep-2019 21:49:50.903 CEST
+Begin processing the 10001st record. Run 273592, Event 293042828, LumiSection 148 on stream 0 at 27-Sep-2019 21:50:28.652 CEST
+Begin processing the 11001st record. Run 273592, Event 322987969, LumiSection 163 on stream 0 at 27-Sep-2019 21:51:05.777 CEST
+27-Sep-2019 21:51:42 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/B88F5648-4F07-E911-9D76-782BCB4FBF56.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[7.673MB/7.673MB][100%][==================================================][7.673MB/s]  [7.673MB/7.673MB][100%][==================================================][7.673MB/s]  

@@ -1,0 +1,32 @@
+27-Sep-2019 21:43:01 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/F0EE6221-5A07-E911-B26C-002590D9D9FC.root
+27-Sep-2019 21:43:04 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/F0EE6221-5A07-E911-B26C-002590D9D9FC.root
+Begin processing the 1st record. Run 277096, Event 2171091168, LumiSection 1244 on stream 0 at 27-Sep-2019 21:43:09.011 CEST
+Begin processing the 1001st record. Run 277096, Event 2178767352, LumiSection 1249 on stream 0 at 27-Sep-2019 21:43:10.607 CEST
+Begin processing the 2001st record. Run 277096, Event 2186452734, LumiSection 1254 on stream 0 at 27-Sep-2019 21:43:13.442 CEST
+Begin processing the 3001st record. Run 277096, Event 2194639656, LumiSection 1259 on stream 0 at 27-Sep-2019 21:43:14.825 CEST
+Begin processing the 4001st record. Run 277096, Event 2203964064, LumiSection 1265 on stream 0 at 27-Sep-2019 21:43:15.653 CEST
+Begin processing the 5001st record. Run 277126, Event 20006335, LumiSection 47 on stream 0 at 27-Sep-2019 21:43:17.020 CEST
+Begin processing the 6001st record. Run 277126, Event 28169005, LumiSection 56 on stream 0 at 27-Sep-2019 21:43:18.949 CEST
+Begin processing the 7001st record. Run 277202, Event 794240748, LumiSection 507 on stream 0 at 27-Sep-2019 21:43:20.272 CEST
+27-Sep-2019 21:43:20 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/F0EE6221-5A07-E911-B26C-002590D9D9FC.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[2.814MB/2.814MB][100%][==================================================][2.814MB/s]  [2.814MB/2.814MB][100%][==================================================][2.814MB/s]  

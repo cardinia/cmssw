@@ -1,0 +1,44 @@
+000 (3189599.087.000) 09/26 11:25:39 Job submitted from host: <137.138.44.75:9618?addrs=137.138.44.75-9618+[2001-1458-d00-1a--b]-9618&alias=bigbird14.cern.ch&noUDP&sock=schedd_2873_37ae_40>
+...
+040 (3189599.087.000) 09/26 12:51:14 Started transferring input files
+	Transferring to host: <128.142.110.26:9618?addrs=128.142.110.26-9618+[--1]-9618&noUDP&sock=13997_e712_12296>
+...
+040 (3189599.087.000) 09/26 12:51:14 Finished transferring input files
+...
+001 (3189599.087.000) 09/26 12:51:14 Job executing on host: <128.142.110.26:9618?addrs=128.142.110.26-9618+[--1]-9618&noUDP&sock=13862_c1ea_3>
+...
+006 (3189599.087.000) 09/26 12:51:23 Image size of job updated: 220128
+	116  -  MemoryUsage of job (MB)
+	118732  -  ResidentSetSize of job (KB)
+...
+006 (3189599.087.000) 09/26 12:56:24 Image size of job updated: 665276
+	548  -  MemoryUsage of job (MB)
+	560832  -  ResidentSetSize of job (KB)
+...
+006 (3189599.087.000) 09/26 13:01:24 Image size of job updated: 672424
+	555  -  MemoryUsage of job (MB)
+	567980  -  ResidentSetSize of job (KB)
+...
+006 (3189599.087.000) 09/26 13:06:25 Image size of job updated: 672424
+	555  -  MemoryUsage of job (MB)
+	568004  -  ResidentSetSize of job (KB)
+...
+040 (3189599.087.000) 09/26 16:01:19 Started transferring output files
+...
+040 (3189599.087.000) 09/26 16:01:19 Finished transferring output files
+...
+005 (3189599.087.000) 09/26 16:01:19 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 03:03:21, Sys 0 00:00:21  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 03:03:21, Sys 0 00:00:21  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	15107  -  Run Bytes Sent By Job
+	1015  -  Run Bytes Received By Job
+	15107  -  Total Bytes Sent By Job
+	1015  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :                 1           
+	   Disk (KB)            :    10205        1   2084845 
+	   Memory (MB)          :      555     2000      2000 
+...

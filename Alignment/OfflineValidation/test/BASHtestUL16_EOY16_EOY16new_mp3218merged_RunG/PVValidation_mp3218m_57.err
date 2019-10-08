@@ -1,0 +1,33 @@
+26-Sep-2019 12:51:28 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+26-Sep-2019 12:51:36 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+Begin processing the 1st record. Run 280014, Event 24290, LumiSection 1 on stream 0 at 26-Sep-2019 12:52:01.568 CEST
+Begin processing the 1001st record. Run 280016, Event 278757267, LumiSection 145 on stream 0 at 26-Sep-2019 12:55:01.083 CEST
+Begin processing the 2001st record. Run 280016, Event 287122332, LumiSection 149 on stream 0 at 26-Sep-2019 12:55:03.626 CEST
+Begin processing the 3001st record. Run 280364, Event 2283329037, LumiSection 1347 on stream 0 at 26-Sep-2019 12:55:06.051 CEST
+Begin processing the 4001st record. Run 280364, Event 2288216224, LumiSection 1350 on stream 0 at 26-Sep-2019 12:55:08.177 CEST
+Begin processing the 5001st record. Run 280364, Event 2292677552, LumiSection 1353 on stream 0 at 26-Sep-2019 12:55:09.826 CEST
+Begin processing the 6001st record. Run 280364, Event 2297083170, LumiSection 1356 on stream 0 at 26-Sep-2019 12:55:12.223 CEST
+Begin processing the 7001st record. Run 280364, Event 2300923296, LumiSection 1359 on stream 0 at 26-Sep-2019 12:55:14.137 CEST
+Begin processing the 8001st record. Run 280364, Event 2306359538, LumiSection 1362 on stream 0 at 26-Sep-2019 12:55:16.272 CEST
+26-Sep-2019 12:55:18 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[5.163MB/5.163MB][100%][==================================================][5.163MB/s]  [5.163MB/5.163MB][100%][==================================================][5.163MB/s]  

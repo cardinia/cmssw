@@ -1,0 +1,28 @@
+26-Sep-2019 12:50:38 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+26-Sep-2019 12:50:42 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+Begin processing the 1st record. Run 276064, Event 2295899, LumiSection 1 on stream 0 at 26-Sep-2019 12:50:55.639 CEST
+Begin processing the 1001st record. Run 276064, Event 15745072, LumiSection 6 on stream 0 at 26-Sep-2019 12:54:19.016 CEST
+Begin processing the 2001st record. Run 276064, Event 32016567, LumiSection 12 on stream 0 at 26-Sep-2019 12:56:55.065 CEST
+Begin processing the 3001st record. Run 276064, Event 46837900, LumiSection 18 on stream 0 at 26-Sep-2019 12:59:40.597 CEST
+26-Sep-2019 13:01:34 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016C/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/010000/5CC7ABF2-AB10-E911-9F5D-1866DA85DC8B.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[8.141MB/8.141MB][100%][==================================================][8.141MB/s]  [8.141MB/8.141MB][100%][==================================================][8.141MB/s]  

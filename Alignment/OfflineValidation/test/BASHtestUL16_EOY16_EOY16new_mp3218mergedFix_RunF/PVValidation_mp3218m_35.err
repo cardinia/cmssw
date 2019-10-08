@@ -1,0 +1,41 @@
+27-Sep-2019 21:49:16 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/38CB8984-5A12-E911-82E7-0CC47A4D76B6.root
+27-Sep-2019 21:49:23 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/38CB8984-5A12-E911-82E7-0CC47A4D76B6.root
+Begin processing the 1st record. Run 278801, Event 22419021, LumiSection 49 on stream 0 at 27-Sep-2019 21:49:46.442 CEST
+Begin processing the 1001st record. Run 278801, Event 28529904, LumiSection 53 on stream 0 at 27-Sep-2019 21:58:56.052 CEST
+Begin processing the 2001st record. Run 278801, Event 36568625, LumiSection 57 on stream 0 at 27-Sep-2019 22:03:48.452 CEST
+Begin processing the 3001st record. Run 278801, Event 45576845, LumiSection 61 on stream 0 at 27-Sep-2019 22:08:32.607 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 27-Sep-2019 22:11:13 CEST  Run: 278801 Event: 50041083
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 0
+%MSG
+Begin processing the 4001st record. Run 278801, Event 50812177, LumiSection 65 on stream 0 at 27-Sep-2019 22:13:13.371 CEST
+Begin processing the 5001st record. Run 278801, Event 61029988, LumiSection 71 on stream 0 at 27-Sep-2019 22:17:57.830 CEST
+Begin processing the 6001st record. Run 278801, Event 69640716, LumiSection 76 on stream 0 at 27-Sep-2019 22:22:36.766 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 27-Sep-2019 22:23:14 CEST  Run: 278801 Event: 70340460
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 395
+%MSG
+Begin processing the 7001st record. Run 278801, Event 78132804, LumiSection 80 on stream 0 at 27-Sep-2019 22:27:15.979 CEST
+27-Sep-2019 22:29:39 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/38CB8984-5A12-E911-82E7-0CC47A4D76B6.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       2        2
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          278801/50041083  278801/70340460  
+    2 fileAction           PostGlobalEndRun                  
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 2                   2
+System                  3                   3
+
+dropped waiting message count 0
+[8.897MB/8.897MB][100%][==================================================][8.897MB/s]  [8.897MB/8.897MB][100%][==================================================][8.897MB/s]  

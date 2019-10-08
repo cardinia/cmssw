@@ -1,0 +1,45 @@
+26-Sep-2019 12:48:34 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/20000/88785F8B-6B09-E911-856F-00259073E512.root
+26-Sep-2019 12:48:37 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/20000/88785F8B-6B09-E911-856F-00259073E512.root
+Begin processing the 1st record. Run 275062, Event 184556, LumiSection 1 on stream 0 at 26-Sep-2019 12:48:45.207 CEST
+Begin processing the 1001st record. Run 275124, Event 662422128, LumiSection 417 on stream 0 at 26-Sep-2019 12:49:09.837 CEST
+Begin processing the 2001st record. Run 275124, Event 669541428, LumiSection 421 on stream 0 at 26-Sep-2019 12:49:12.272 CEST
+Begin processing the 3001st record. Run 275124, Event 679487213, LumiSection 426 on stream 0 at 26-Sep-2019 12:49:15.129 CEST
+Begin processing the 4001st record. Run 275124, Event 689821373, LumiSection 431 on stream 0 at 26-Sep-2019 12:49:18.007 CEST
+Begin processing the 5001st record. Run 275289, Event 9912498, LumiSection 4 on stream 0 at 26-Sep-2019 12:49:20.338 CEST
+Begin processing the 6001st record. Run 275289, Event 23794036, LumiSection 9 on stream 0 at 26-Sep-2019 12:49:22.142 CEST
+Begin processing the 7001st record. Run 275289, Event 33973400, LumiSection 13 on stream 0 at 26-Sep-2019 12:49:24.172 CEST
+Begin processing the 8001st record. Run 275289, Event 45488244, LumiSection 17 on stream 0 at 26-Sep-2019 12:49:26.202 CEST
+Begin processing the 9001st record. Run 275290, Event 330138497, LumiSection 121 on stream 0 at 26-Sep-2019 12:49:28.150 CEST
+Begin processing the 10001st record. Run 275290, Event 341530694, LumiSection 125 on stream 0 at 26-Sep-2019 12:49:30.323 CEST
+Begin processing the 11001st record. Run 275290, Event 352676452, LumiSection 129 on stream 0 at 26-Sep-2019 12:49:32.377 CEST
+Begin processing the 12001st record. Run 275290, Event 362047574, LumiSection 133 on stream 0 at 26-Sep-2019 12:49:34.519 CEST
+Begin processing the 13001st record. Run 275290, Event 374370998, LumiSection 137 on stream 0 at 26-Sep-2019 12:49:36.301 CEST
+Begin processing the 14001st record. Run 275290, Event 388210973, LumiSection 142 on stream 0 at 26-Sep-2019 12:49:38.261 CEST
+Begin processing the 15001st record. Run 275345, Event 658659046, LumiSection 327 on stream 0 at 26-Sep-2019 12:49:40.709 CEST
+Begin processing the 16001st record. Run 275345, Event 667005274, LumiSection 332 on stream 0 at 26-Sep-2019 12:49:42.843 CEST
+Begin processing the 17001st record. Run 275345, Event 678031423, LumiSection 337 on stream 0 at 26-Sep-2019 12:49:44.768 CEST
+Begin processing the 18001st record. Run 275345, Event 686580025, LumiSection 342 on stream 0 at 26-Sep-2019 12:49:47.113 CEST
+Begin processing the 19001st record. Run 275345, Event 697304210, LumiSection 347 on stream 0 at 26-Sep-2019 12:49:49.027 CEST
+Begin processing the 20001st record. Run 275345, Event 705971726, LumiSection 352 on stream 0 at 26-Sep-2019 12:49:51.515 CEST
+26-Sep-2019 12:49:51 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/20000/88785F8B-6B09-E911-856F-00259073E512.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[6.583MB/6.583MB][100%][==================================================][6.583MB/s]  [6.583MB/6.583MB][100%][==================================================][6.583MB/s]  

@@ -1,0 +1,48 @@
+000 (3196549.025.000) 09/27 21:31:59 Job submitted from host: <137.138.44.75:9618?addrs=137.138.44.75-9618+[2001-1458-d00-1a--b]-9618&alias=bigbird14.cern.ch&noUDP&sock=schedd_2873_37ae_40>
+...
+040 (3196549.025.000) 09/27 21:41:45 Started transferring input files
+	Transferring to host: <188.184.143.34:9618?addrs=188.184.143.34-9618+[2001-1458-301-46--100-131]-9618&noUDP&sock=4522_e871_13548>
+...
+040 (3196549.025.000) 09/27 21:41:45 Finished transferring input files
+...
+001 (3196549.025.000) 09/27 21:41:45 Job executing on host: <188.184.143.34:9618?addrs=188.184.143.34-9618+[2001-1458-301-46--100-131]-9618&noUDP&sock=2412_0285_3>
+...
+006 (3196549.025.000) 09/27 21:41:54 Image size of job updated: 35452
+	21  -  MemoryUsage of job (MB)
+	20752  -  ResidentSetSize of job (KB)
+...
+006 (3196549.025.000) 09/27 21:46:55 Image size of job updated: 559768
+	544  -  MemoryUsage of job (MB)
+	556544  -  ResidentSetSize of job (KB)
+...
+006 (3196549.025.000) 09/27 23:37:05 Image size of job updated: 561596
+	547  -  MemoryUsage of job (MB)
+	559528  -  ResidentSetSize of job (KB)
+...
+006 (3196549.025.000) 09/27 23:42:05 Image size of job updated: 567680
+	553  -  MemoryUsage of job (MB)
+	565612  -  ResidentSetSize of job (KB)
+...
+006 (3196549.025.000) 09/27 23:47:05 Image size of job updated: 569676
+	555  -  MemoryUsage of job (MB)
+	567608  -  ResidentSetSize of job (KB)
+...
+040 (3196549.025.000) 09/27 23:54:40 Started transferring output files
+...
+040 (3196549.025.000) 09/27 23:54:40 Finished transferring output files
+...
+005 (3196549.025.000) 09/27 23:54:41 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 02:08:48, Sys 0 00:00:16  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 02:08:48, Sys 0 00:00:16  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	11471  -  Run Bytes Sent By Job
+	1021  -  Run Bytes Received By Job
+	11471  -  Total Bytes Sent By Job
+	1021  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :                 1           
+	   Disk (KB)            :     9789        1   2077056 
+	   Memory (MB)          :      555     2000      2000 
+...

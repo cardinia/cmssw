@@ -1,0 +1,32 @@
+27-Sep-2019 21:43:57 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/CEE95B9A-FF11-E911-B7FF-0025905A60B0.root
+27-Sep-2019 21:44:00 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/CEE95B9A-FF11-E911-B7FF-0025905A60B0.root
+Begin processing the 1st record. Run 280384, Event 167510, LumiSection 2 on stream 0 at 27-Sep-2019 21:44:07.211 CEST
+Begin processing the 1001st record. Run 280384, Event 6757651, LumiSection 8 on stream 0 at 27-Sep-2019 21:48:41.044 CEST
+Begin processing the 2001st record. Run 280384, Event 16827312, LumiSection 13 on stream 0 at 27-Sep-2019 21:53:11.477 CEST
+Begin processing the 3001st record. Run 280384, Event 25237347, LumiSection 18 on stream 0 at 27-Sep-2019 21:57:49.159 CEST
+Begin processing the 4001st record. Run 280384, Event 32633649, LumiSection 21 on stream 0 at 27-Sep-2019 22:02:33.832 CEST
+Begin processing the 5001st record. Run 280384, Event 38968096, LumiSection 25 on stream 0 at 27-Sep-2019 22:06:38.085 CEST
+Begin processing the 6001st record. Run 280384, Event 47015250, LumiSection 29 on stream 0 at 27-Sep-2019 22:11:22.373 CEST
+Begin processing the 7001st record. Run 280384, Event 56991909, LumiSection 34 on stream 0 at 27-Sep-2019 22:16:50.240 CEST
+27-Sep-2019 22:17:42 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/CEE95B9A-FF11-E911-B7FF-0025905A60B0.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[8.793MB/8.793MB][100%][==================================================][8.793MB/s]  [8.793MB/8.793MB][100%][==================================================][8.793MB/s]  

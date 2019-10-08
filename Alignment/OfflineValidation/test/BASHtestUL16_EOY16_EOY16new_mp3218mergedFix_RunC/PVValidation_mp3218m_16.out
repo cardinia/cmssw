@@ -1,0 +1,8 @@
+Job started at  Fri Sep 27 21:44:58 CEST 2019
+batch dir: /pool/condor/dir_2188 release: /afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/alignmentObjects/paconnor/CMSSW_10_6_0/src release base: /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_6_0
+cmsRun PVValidation_mp3218m_275776_cfg.py
+>>>>>>>>>> testPVValidation_cfg.py: msg%-i: This is DATA!
+>>>>>>>>>> testPVValidation_cfg.py: msg%-i: Applying TrackerSurfaceDeformations!
+>>>>>>>>>> testPVValidation_cfg.py: msg%-i: Running DA Algorithm!
+Content of working dir is total 9.5M -rw-r--r--. 1 tkello zh 9.5M Sep 27 23:08 PVValidation_mp3218m_275776.root -rw-r--r--. 1 tkello zh 20K Sep 27 21:44 PVValidation_mp3218m_275776_cfg.py -rw-r--r--. 1 tkello zh 6.3K Sep 27 23:08 _condor_stderr -rw-r--r--. 1 tkello zh 521 Sep 27 21:45 _condor_stdout -rwxr-xr-x. 1 tkello zh 1018 Sep 27 21:44 condor_exec.exe -rw-------. 1 tkello zh 4.3K Sep 27 21:45 tkello.cc drwx------. 3 tkello zh 4.0K Sep 27 21:44 tmp drwx------. 3 tkello zh 4.0K Sep 27 21:44 var
+Job ended at  Fri Sep 27 23:08:15 CEST 2019

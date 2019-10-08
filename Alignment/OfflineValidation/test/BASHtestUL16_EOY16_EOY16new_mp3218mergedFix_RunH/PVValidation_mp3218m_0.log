@@ -1,0 +1,44 @@
+000 (3196555.000.000) 09/27 21:34:15 Job submitted from host: <137.138.44.75:9618?addrs=137.138.44.75-9618+[2001-1458-d00-1a--b]-9618&alias=bigbird14.cern.ch&noUDP&sock=schedd_2873_37ae_40>
+...
+040 (3196555.000.000) 09/27 21:43:45 Started transferring input files
+	Transferring to host: <128.142.109.193:9618?addrs=128.142.109.193-9618+[--1]-9618&noUDP&sock=13965_5b11_13246>
+...
+040 (3196555.000.000) 09/27 21:43:45 Finished transferring input files
+...
+001 (3196555.000.000) 09/27 21:43:45 Job executing on host: <128.142.109.193:9618?addrs=128.142.109.193-9618+[--1]-9618&noUDP&sock=13846_c866_3>
+...
+006 (3196555.000.000) 09/27 21:43:54 Image size of job updated: 120788
+	82  -  MemoryUsage of job (MB)
+	83276  -  ResidentSetSize of job (KB)
+...
+006 (3196555.000.000) 09/27 21:48:54 Image size of job updated: 654308
+	535  -  MemoryUsage of job (MB)
+	547108  -  ResidentSetSize of job (KB)
+...
+006 (3196555.000.000) 09/27 21:53:54 Image size of job updated: 654552
+	535  -  MemoryUsage of job (MB)
+	547352  -  ResidentSetSize of job (KB)
+...
+006 (3196555.000.000) 09/27 22:03:56 Image size of job updated: 658192
+	539  -  MemoryUsage of job (MB)
+	550992  -  ResidentSetSize of job (KB)
+...
+040 (3196555.000.000) 09/28 00:50:19 Started transferring output files
+...
+040 (3196555.000.000) 09/28 00:50:19 Finished transferring output files
+...
+005 (3196555.000.000) 09/28 00:50:19 Job terminated.
+	(1) Normal termination (return value 0)
+		Usr 0 03:01:24, Sys 0 00:00:23  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 03:01:24, Sys 0 00:00:23  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	10609  -  Run Bytes Sent By Job
+	1018  -  Run Bytes Received By Job
+	10609  -  Total Bytes Sent By Job
+	1018  -  Total Bytes Received By Job
+	Partitionable Resources :    Usage  Request Allocated 
+	   Cpus                 :                 1           
+	   Disk (KB)            :     9916        1   2094846 
+	   Memory (MB)          :      539     2000      2000 
+...

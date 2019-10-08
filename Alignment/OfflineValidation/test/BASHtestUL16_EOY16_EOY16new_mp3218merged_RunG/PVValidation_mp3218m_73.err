@@ -1,0 +1,42 @@
+26-Sep-2019 12:50:51 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B8A500CA-2F12-E911-B0C7-0CC47A4D75F8.root
+26-Sep-2019 12:50:55 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B8A500CA-2F12-E911-B0C7-0CC47A4D75F8.root
+Begin processing the 1st record. Run 280327, Event 19990733, LumiSection 50 on stream 0 at 26-Sep-2019 12:51:02.606 CEST
+Begin processing the 1001st record. Run 280327, Event 27857069, LumiSection 54 on stream 0 at 26-Sep-2019 12:56:12.156 CEST
+Begin processing the 2001st record. Run 280327, Event 37123099, LumiSection 58 on stream 0 at 26-Sep-2019 13:01:15.835 CEST
+Begin processing the 3001st record. Run 280327, Event 45228258, LumiSection 62 on stream 0 at 26-Sep-2019 13:06:29.326 CEST
+Begin processing the 4001st record. Run 280327, Event 53540946, LumiSection 66 on stream 0 at 26-Sep-2019 13:11:35.847 CEST
+Begin processing the 5001st record. Run 280327, Event 61651571, LumiSection 70 on stream 0 at 26-Sep-2019 13:16:35.187 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:16:51 CEST  Run: 280327 Event: 61187471
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 342
+%MSG
+Begin processing the 6001st record. Run 280327, Event 69388464, LumiSection 74 on stream 0 at 26-Sep-2019 13:21:26.745 CEST
+Begin processing the 7001st record. Run 280327, Event 76384759, LumiSection 77 on stream 0 at 26-Sep-2019 13:25:37.663 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 13:28:48 CEST  Run: 280327 Event: 81455084
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 0
+%MSG
+Begin processing the 8001st record. Run 280327, Event 84433197, LumiSection 81 on stream 0 at 26-Sep-2019 13:30:19.493 CEST
+26-Sep-2019 13:32:25 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B8A500CA-2F12-E911-B0C7-0CC47A4D75F8.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       2        2
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          280327/61187471  280327/81455084  
+    2 fileAction           PostGlobalEndRun                  
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 2                   2
+System                  3                   3
+
+dropped waiting message count 0
+[8.916MB/8.916MB][100%][==================================================][8.916MB/s]  [8.916MB/8.916MB][100%][==================================================][8.916MB/s]  

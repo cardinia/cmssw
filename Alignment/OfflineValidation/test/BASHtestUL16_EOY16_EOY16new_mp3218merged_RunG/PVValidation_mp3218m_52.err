@@ -1,0 +1,35 @@
+26-Sep-2019 12:50:43 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+26-Sep-2019 12:50:47 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+Begin processing the 1st record. Run 279995, Event 143500, LumiSection 1 on stream 0 at 26-Sep-2019 12:50:54.679 CEST
+Begin processing the 1001st record. Run 279995, Event 7103049, LumiSection 4 on stream 0 at 26-Sep-2019 12:56:07.106 CEST
+Begin processing the 2001st record. Run 280016, Event 271006902, LumiSection 141 on stream 0 at 26-Sep-2019 13:00:18.426 CEST
+Begin processing the 3001st record. Run 280016, Event 280470016, LumiSection 146 on stream 0 at 26-Sep-2019 13:00:20.852 CEST
+Begin processing the 4001st record. Run 280364, Event 2281177998, LumiSection 1345 on stream 0 at 26-Sep-2019 13:00:23.409 CEST
+Begin processing the 5001st record. Run 280364, Event 2284304663, LumiSection 1348 on stream 0 at 26-Sep-2019 13:00:24.933 CEST
+Begin processing the 6001st record. Run 280364, Event 2288863788, LumiSection 1351 on stream 0 at 26-Sep-2019 13:00:26.465 CEST
+Begin processing the 7001st record. Run 280364, Event 2294272387, LumiSection 1354 on stream 0 at 26-Sep-2019 13:00:27.929 CEST
+Begin processing the 8001st record. Run 280364, Event 2298458655, LumiSection 1357 on stream 0 at 26-Sep-2019 13:00:29.535 CEST
+Begin processing the 9001st record. Run 280364, Event 2303534631, LumiSection 1360 on stream 0 at 26-Sep-2019 13:00:31.261 CEST
+Begin processing the 10001st record. Run 280364, Event 2307878209, LumiSection 1363 on stream 0 at 26-Sep-2019 13:00:32.665 CEST
+26-Sep-2019 13:00:33 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/E698259E-E311-E911-A17F-0025905A60B8.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[8.027MB/8.027MB][100%][==================================================][8.027MB/s]  [8.027MB/8.027MB][100%][==================================================][8.027MB/s]  

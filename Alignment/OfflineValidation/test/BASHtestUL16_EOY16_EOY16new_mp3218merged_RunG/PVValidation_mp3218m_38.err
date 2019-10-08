@@ -1,0 +1,95 @@
+26-Sep-2019 13:30:36 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B23E382A-4112-E911-AFC8-0025905A48E4.root
+26-Sep-2019 13:30:47 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B23E382A-4112-E911-AFC8-0025905A48E4.root
+Begin processing the 1st record. Run 279716, Event 2444079336, LumiSection 1392 on stream 0 at 26-Sep-2019 13:33:15.764 CEST
+Begin processing the 1001st record. Run 279716, Event 2452173263, LumiSection 1396 on stream 0 at 26-Sep-2019 13:47:58.658 CEST
+Begin processing the 2001st record. Run 279716, Event 2458871780, LumiSection 1400 on stream 0 at 26-Sep-2019 13:51:18.960 CEST
+Begin processing the 3001st record. Run 279716, Event 2466407435, LumiSection 1404 on stream 0 at 26-Sep-2019 13:54:45.774 CEST
+Begin processing the 4001st record. Run 279716, Event 2473870001, LumiSection 1408 on stream 0 at 26-Sep-2019 13:57:58.488 CEST
+Begin processing the 5001st record. Run 279716, Event 2481737479, LumiSection 1412 on stream 0 at 26-Sep-2019 14:01:09.075 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 14:02:48 CEST  Run: 279716 Event: 2486488544
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 3018
+%MSG
+Begin processing the 6001st record. Run 279716, Event 2490329059, LumiSection 1416 on stream 0 at 26-Sep-2019 14:04:31.071 CEST
+Begin processing the 7001st record. Run 279716, Event 2498492472, LumiSection 1420 on stream 0 at 26-Sep-2019 14:07:51.042 CEST
+Begin processing the 8001st record. Run 279716, Event 2505272371, LumiSection 1424 on stream 0 at 26-Sep-2019 14:11:16.955 CEST
+Begin processing the 9001st record. Run 279716, Event 2514558641, LumiSection 1429 on stream 0 at 26-Sep-2019 14:14:35.244 CEST
+Begin processing the 10001st record. Run 279716, Event 2522307644, LumiSection 1433 on stream 0 at 26-Sep-2019 14:17:57.680 CEST
+Begin processing the 11001st record. Run 279716, Event 2530377793, LumiSection 1437 on stream 0 at 26-Sep-2019 14:21:31.953 CEST
+Begin processing the 12001st record. Run 279716, Event 2537774970, LumiSection 1441 on stream 0 at 26-Sep-2019 14:25:17.021 CEST
+Begin processing the 13001st record. Run 279716, Event 2544650716, LumiSection 1445 on stream 0 at 26-Sep-2019 14:29:05.903 CEST
+Begin processing the 14001st record. Run 279716, Event 2552482131, LumiSection 1449 on stream 0 at 26-Sep-2019 14:32:49.496 CEST
+Begin processing the 15001st record. Run 279716, Event 2560214662, LumiSection 1453 on stream 0 at 26-Sep-2019 14:36:17.875 CEST
+Begin processing the 16001st record. Run 279716, Event 2568789539, LumiSection 1457 on stream 0 at 26-Sep-2019 14:39:59.428 CEST
+Begin processing the 17001st record. Run 279716, Event 2578165584, LumiSection 1462 on stream 0 at 26-Sep-2019 14:43:27.560 CEST
+Begin processing the 18001st record. Run 279716, Event 2583685881, LumiSection 1465 on stream 0 at 26-Sep-2019 14:47:02.409 CEST
+Begin processing the 19001st record. Run 279716, Event 2591800020, LumiSection 1470 on stream 0 at 26-Sep-2019 14:49:43.696 CEST
+Begin processing the 20001st record. Run 279716, Event 2599656787, LumiSection 1474 on stream 0 at 26-Sep-2019 14:52:20.400 CEST
+Begin processing the 21001st record. Run 279716, Event 2607773260, LumiSection 1478 on stream 0 at 26-Sep-2019 14:54:57.984 CEST
+Begin processing the 22001st record. Run 279716, Event 2615852864, LumiSection 1482 on stream 0 at 26-Sep-2019 14:57:53.006 CEST
+Begin processing the 23001st record. Run 279716, Event 2623014843, LumiSection 1486 on stream 0 at 26-Sep-2019 15:01:38.132 CEST
+Begin processing the 24001st record. Run 279716, Event 2630765858, LumiSection 1491 on stream 0 at 26-Sep-2019 15:05:27.677 CEST
+Begin processing the 25001st record. Run 279716, Event 2637808530, LumiSection 1495 on stream 0 at 26-Sep-2019 15:09:14.696 CEST
+Begin processing the 26001st record. Run 279716, Event 2646849602, LumiSection 1500 on stream 0 at 26-Sep-2019 15:13:10.022 CEST
+Begin processing the 27001st record. Run 279716, Event 2654789116, LumiSection 1504 on stream 0 at 26-Sep-2019 15:17:02.666 CEST
+Begin processing the 28001st record. Run 279716, Event 2661738546, LumiSection 1508 on stream 0 at 26-Sep-2019 15:20:44.418 CEST
+Begin processing the 29001st record. Run 279716, Event 2671003802, LumiSection 1512 on stream 0 at 26-Sep-2019 15:24:32.281 CEST
+Begin processing the 30001st record. Run 279716, Event 2677736496, LumiSection 1516 on stream 0 at 26-Sep-2019 15:28:22.049 CEST
+Begin processing the 31001st record. Run 279716, Event 2687677254, LumiSection 1521 on stream 0 at 26-Sep-2019 15:32:09.701 CEST
+Begin processing the 32001st record. Run 279716, Event 2719443394, LumiSection 1538 on stream 0 at 26-Sep-2019 15:35:50.565 CEST
+Begin processing the 33001st record. Run 279716, Event 2726126110, LumiSection 1542 on stream 0 at 26-Sep-2019 15:39:19.360 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 15:39:56 CEST  Run: 279716 Event: 2728322041
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 2
+%MSG
+Begin processing the 34001st record. Run 279716, Event 2732630872, LumiSection 1546 on stream 0 at 26-Sep-2019 15:43:15.036 CEST
+26-Sep-2019 15:45:12 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/B23E382A-4112-E911-AFC8-0025905A48E4.root
+26-Sep-2019 15:45:12 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/76865945-3F12-E911-9E21-0025905A60B8.root
+26-Sep-2019 15:45:15 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/76865945-3F12-E911-9E21-0025905A60B8.root
+Begin processing the 35001st record. Run 279716, Event 540467019, LumiSection 287 on stream 0 at 26-Sep-2019 15:47:26.640 CEST
+Begin processing the 36001st record. Run 279716, Event 554403793, LumiSection 295 on stream 0 at 26-Sep-2019 15:52:02.636 CEST
+Begin processing the 37001st record. Run 279716, Event 561688059, LumiSection 299 on stream 0 at 26-Sep-2019 15:56:28.102 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 15:57:43 CEST  Run: 279716 Event: 563797950
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 5
+%MSG
+Begin processing the 38001st record. Run 279716, Event 570151014, LumiSection 304 on stream 0 at 26-Sep-2019 16:01:08.050 CEST
+Begin processing the 39001st record. Run 279716, Event 577964074, LumiSection 308 on stream 0 at 26-Sep-2019 16:05:59.126 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 16:07:48 CEST  Run: 279716 Event: 580209985
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 0
+%MSG
+Begin processing the 40001st record. Run 279716, Event 586223728, LumiSection 313 on stream 0 at 26-Sep-2019 16:11:39.723 CEST
+Begin processing the 41001st record. Run 279716, Event 593849585, LumiSection 317 on stream 0 at 26-Sep-2019 16:17:10.607 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 26-Sep-2019 16:19:18 CEST  Run: 279716 Event: 596906780
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 6
+%MSG
+Begin processing the 42001st record. Run 279716, Event 602458300, LumiSection 322 on stream 0 at 26-Sep-2019 16:22:00.558 CEST
+Begin processing the 43001st record. Run 279716, Event 609479990, LumiSection 326 on stream 0 at 26-Sep-2019 16:26:11.809 CEST
+Begin processing the 44001st record. Run 279716, Event 617326922, LumiSection 331 on stream 0 at 26-Sep-2019 16:30:28.650 CEST
+Begin processing the 45001st record. Run 279716, Event 625167561, LumiSection 335 on stream 0 at 26-Sep-2019 16:34:55.573 CEST
+Begin processing the 46001st record. Run 279716, Event 633239835, LumiSection 340 on stream 0 at 26-Sep-2019 16:39:07.409 CEST
+Begin processing the 47001st record. Run 279716, Event 642368856, LumiSection 345 on stream 0 at 26-Sep-2019 16:43:34.180 CEST
+Begin processing the 48001st record. Run 279716, Event 650122076, LumiSection 349 on stream 0 at 26-Sep-2019 16:48:03.035 CEST
+Begin processing the 49001st record. Run 279716, Event 657567287, LumiSection 353 on stream 0 at 26-Sep-2019 16:52:24.770 CEST
+26-Sep-2019 16:56:37 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016G/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/00000/76865945-3F12-E911-9E21-0025905A60B8.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       5        5
+    2 fileAction           -s file_close                             2        2
+    3 fileAction           -s file_open                              4        4
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          Run: 279716 Even Run: 279716 Even 279716/596906780
+    2 fileAction           PostProcessEvent PostGlobalEndRun 
+    3 fileAction           pre-events       pre-events       PostProcessEvent
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 5                   5
+System                  6                   6
+
+dropped waiting message count 0
+[9.656MB/9.656MB][100%][==================================================][9.656MB/s]  [9.656MB/9.656MB][100%][==================================================][9.656MB/s]  

@@ -1,0 +1,62 @@
+27-Sep-2019 21:40:45 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/98A6E30B-F906-E911-BC38-1866DA7F9816.root
+27-Sep-2019 21:40:48 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/98A6E30B-F906-E911-BC38-1866DA7F9816.root
+Begin processing the 1st record. Run 273405, Event 367212, LumiSection 1 on stream 0 at 27-Sep-2019 21:40:55.677 CEST
+%MSG-w OutOfBounds:  TrackRefitter:FinalTrackRefitter 27-Sep-2019 21:42:13 CEST  Run: 273405 Event: 2896897
+Prob Q outside the bounds of the quality word. Defaulting to Prob=0. Prob = 1 QualityWord = 9254
+%MSG
+Begin processing the 1001st record. Run 273405, Event 9000714, LumiSection 8 on stream 0 at 27-Sep-2019 21:43:57.656 CEST
+Begin processing the 2001st record. Run 273405, Event 17506549, LumiSection 15 on stream 0 at 27-Sep-2019 21:46:27.020 CEST
+Begin processing the 3001st record. Run 273405, Event 25925440, LumiSection 22 on stream 0 at 27-Sep-2019 21:48:54.654 CEST
+Begin processing the 4001st record. Run 273409, Event 511489936, LumiSection 295 on stream 0 at 27-Sep-2019 21:49:51.004 CEST
+Begin processing the 5001st record. Run 273409, Event 519830939, LumiSection 303 on stream 0 at 27-Sep-2019 21:49:52.455 CEST
+Begin processing the 6001st record. Run 273409, Event 526074858, LumiSection 307 on stream 0 at 27-Sep-2019 21:49:53.841 CEST
+Begin processing the 7001st record. Run 273411, Event 4770392, LumiSection 3 on stream 0 at 27-Sep-2019 21:49:55.004 CEST
+Begin processing the 8001st record. Run 273411, Event 10565845, LumiSection 7 on stream 0 at 27-Sep-2019 21:49:56.443 CEST
+Begin processing the 9001st record. Run 273411, Event 18001190, LumiSection 11 on stream 0 at 27-Sep-2019 21:49:57.565 CEST
+Begin processing the 10001st record. Run 273411, Event 26410538, LumiSection 17 on stream 0 at 27-Sep-2019 21:49:58.713 CEST
+Begin processing the 11001st record. Run 273411, Event 34523714, LumiSection 25 on stream 0 at 27-Sep-2019 21:49:59.689 CEST
+Begin processing the 12001st record. Run 273425, Event 899748427, LumiSection 723 on stream 0 at 27-Sep-2019 21:50:01.022 CEST
+Begin processing the 13001st record. Run 273425, Event 907583514, LumiSection 730 on stream 0 at 27-Sep-2019 21:50:02.348 CEST
+Begin processing the 14001st record. Run 273730, Event 3299106727, LumiSection 2737 on stream 0 at 27-Sep-2019 21:50:03.534 CEST
+Begin processing the 15001st record. Run 273730, Event 3305655769, LumiSection 2742 on stream 0 at 27-Sep-2019 21:50:04.311 CEST
+Begin processing the 16001st record. Run 273730, Event 3310853554, LumiSection 2746 on stream 0 at 27-Sep-2019 21:50:05.270 CEST
+Begin processing the 17001st record. Run 273730, Event 3318041703, LumiSection 2751 on stream 0 at 27-Sep-2019 21:50:06.109 CEST
+Begin processing the 18001st record. Run 273730, Event 3324577277, LumiSection 2756 on stream 0 at 27-Sep-2019 21:50:06.833 CEST
+Begin processing the 19001st record. Run 273730, Event 3331148045, LumiSection 2761 on stream 0 at 27-Sep-2019 21:50:07.602 CEST
+Begin processing the 20001st record. Run 273730, Event 3338275282, LumiSection 2767 on stream 0 at 27-Sep-2019 21:50:08.429 CEST
+Begin processing the 21001st record. Run 273730, Event 3344983976, LumiSection 2772 on stream 0 at 27-Sep-2019 21:50:09.354 CEST
+Begin processing the 22001st record. Run 273730, Event 3352457088, LumiSection 2777 on stream 0 at 27-Sep-2019 21:50:10.228 CEST
+Begin processing the 23001st record. Run 273730, Event 3358184297, LumiSection 2782 on stream 0 at 27-Sep-2019 21:50:11.094 CEST
+Begin processing the 24001st record. Run 273730, Event 3364480169, LumiSection 2787 on stream 0 at 27-Sep-2019 21:50:12.019 CEST
+Begin processing the 25001st record. Run 273730, Event 3373324910, LumiSection 2793 on stream 0 at 27-Sep-2019 21:50:12.948 CEST
+Begin processing the 26001st record. Run 273730, Event 3379369728, LumiSection 2798 on stream 0 at 27-Sep-2019 21:50:14.253 CEST
+Begin processing the 27001st record. Run 273730, Event 3385629651, LumiSection 2803 on stream 0 at 27-Sep-2019 21:50:15.243 CEST
+Begin processing the 28001st record. Run 273730, Event 3393093125, LumiSection 2808 on stream 0 at 27-Sep-2019 21:50:15.953 CEST
+Begin processing the 29001st record. Run 274199, Event 1103892264, LumiSection 606 on stream 0 at 27-Sep-2019 21:50:17.316 CEST
+Begin processing the 30001st record. Run 274199, Event 1116571955, LumiSection 613 on stream 0 at 27-Sep-2019 21:50:19.135 CEST
+Begin processing the 31001st record. Run 274199, Event 1128642121, LumiSection 620 on stream 0 at 27-Sep-2019 21:50:20.432 CEST
+27-Sep-2019 21:50:21 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016B/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018_ver2-v1/00000/98A6E30B-F906-E911-BC38-1866DA7F9816.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 OutOfBounds          -w TrackRefitter:Fi                       1        1
+    2 fileAction           -s file_close                             1        1
+    3 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 OutOfBounds          273405/2896897                    
+    2 fileAction           PostGlobalEndRun                  
+    3 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 1                   1
+System                  3                   3
+
+dropped waiting message count 0
+[8.007MB/8.007MB][100%][==================================================][8.007MB/s]  [8.007MB/8.007MB][100%][==================================================][8.007MB/s]  

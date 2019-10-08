@@ -1,0 +1,47 @@
+26-Sep-2019 12:56:09 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/2652A836-9307-E911-A731-5065F37DD491.root
+26-Sep-2019 12:56:12 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/2652A836-9307-E911-A731-5065F37DD491.root
+Begin processing the 1st record. Run 277112, Event 530600, LumiSection 1 on stream 0 at 26-Sep-2019 12:56:18.911 CEST
+Begin processing the 1001st record. Run 277112, Event 8372101, LumiSection 14 on stream 0 at 26-Sep-2019 12:58:54.312 CEST
+Begin processing the 2001st record. Run 277112, Event 17257642, LumiSection 28 on stream 0 at 26-Sep-2019 13:01:23.733 CEST
+Begin processing the 3001st record. Run 277112, Event 26498802, LumiSection 39 on stream 0 at 26-Sep-2019 13:04:31.990 CEST
+Begin processing the 4001st record. Run 277112, Event 34587350, LumiSection 45 on stream 0 at 26-Sep-2019 13:07:25.379 CEST
+Begin processing the 5001st record. Run 277112, Event 42615787, LumiSection 50 on stream 0 at 26-Sep-2019 13:10:19.184 CEST
+Begin processing the 6001st record. Run 277112, Event 52209721, LumiSection 56 on stream 0 at 26-Sep-2019 13:12:49.709 CEST
+Begin processing the 7001st record. Run 277112, Event 59667462, LumiSection 61 on stream 0 at 26-Sep-2019 13:15:32.868 CEST
+Begin processing the 8001st record. Run 277112, Event 69359934, LumiSection 67 on stream 0 at 26-Sep-2019 13:18:07.423 CEST
+Begin processing the 9001st record. Run 277112, Event 76008903, LumiSection 72 on stream 0 at 26-Sep-2019 13:20:50.064 CEST
+Begin processing the 10001st record. Run 277112, Event 85245084, LumiSection 78 on stream 0 at 26-Sep-2019 13:23:25.546 CEST
+Begin processing the 11001st record. Run 277112, Event 92621882, LumiSection 83 on stream 0 at 26-Sep-2019 13:25:57.556 CEST
+Begin processing the 12001st record. Run 277112, Event 100386327, LumiSection 88 on stream 0 at 26-Sep-2019 13:28:55.896 CEST
+Begin processing the 13001st record. Run 277112, Event 108526062, LumiSection 94 on stream 0 at 26-Sep-2019 13:32:15.537 CEST
+Begin processing the 14001st record. Run 277112, Event 117798655, LumiSection 100 on stream 0 at 26-Sep-2019 13:34:48.445 CEST
+Begin processing the 15001st record. Run 277112, Event 125937432, LumiSection 105 on stream 0 at 26-Sep-2019 13:36:59.401 CEST
+Begin processing the 16001st record. Run 277112, Event 134839531, LumiSection 112 on stream 0 at 26-Sep-2019 13:39:20.918 CEST
+Begin processing the 17001st record. Run 277112, Event 143514610, LumiSection 118 on stream 0 at 26-Sep-2019 13:41:43.919 CEST
+Begin processing the 18001st record. Run 277112, Event 151177969, LumiSection 123 on stream 0 at 26-Sep-2019 13:43:53.261 CEST
+Begin processing the 19001st record. Run 277112, Event 160357542, LumiSection 129 on stream 0 at 26-Sep-2019 13:46:03.253 CEST
+Begin processing the 20001st record. Run 277112, Event 168138287, LumiSection 136 on stream 0 at 26-Sep-2019 13:47:55.857 CEST
+Begin processing the 21001st record. Run 277112, Event 176577514, LumiSection 146 on stream 0 at 26-Sep-2019 13:49:40.013 CEST
+Begin processing the 22001st record. Run 277112, Event 184074877, LumiSection 151 on stream 0 at 26-Sep-2019 13:51:45.675 CEST
+26-Sep-2019 13:53:34 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016E/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/10000/2652A836-9307-E911-A731-5065F37DD491.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[9.033MB/9.033MB][100%][==================================================][9.033MB/s]  [9.033MB/9.033MB][100%][==================================================][9.033MB/s]  

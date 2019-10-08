@@ -1,0 +1,25 @@
+26-Sep-2019 13:02:57 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/78997CD0-4912-E911-9413-0CC47A4D7662.root
+26-Sep-2019 13:03:01 CEST  Successfully opened file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/78997CD0-4912-E911-9413-0CC47A4D7662.root
+Begin processing the 1st record. Run 278804, Event 1605512, LumiSection 1 on stream 0 at 26-Sep-2019 13:03:08.751 CEST
+26-Sep-2019 13:08:01 CEST  Closed file root://eoscms.cern.ch//eos/cms/store/data/Run2016F/HLTPhysics/ALCARECO/TkAlMinBias-07Dec2018-v1/20000/78997CD0-4912-E911-9413-0CC47A4D7662.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 fileAction           -s file_close                             1        1
+    2 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 fileAction           PostGlobalEndRun                  
+    2 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+System                  3                   3
+
+dropped waiting message count 0
+[7.612MB/7.612MB][100%][==================================================][7.612MB/s]  [7.612MB/7.612MB][100%][==================================================][7.612MB/s]  
