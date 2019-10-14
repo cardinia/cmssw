@@ -272,7 +272,7 @@ TString lumifileperyear(TString Year, string RunOrIOV) {
     exit(EXIT_FAILURE);
   }
   LumiFile += RunOrIOV;
-  if (Year != "2016" && Year != "2017" && Year != "2018") {
+  if (Year != "2016" && Year != "2017" && Year != "2018" && Year != "fullRun2") {
     cout << "ERROR: Only 2016, 2017 and 2018 lumi-per-run files are available, please check!" << endl;
     exit(EXIT_FAILURE);
   }
@@ -286,18 +286,23 @@ TString lumifileperyear(TString Year, string RunOrIOV) {
  */
 
 vector<int> runlistfromlumifile(TString Year) {
-  TString filename = lumifileperyear(Year, "run");
-  fs::path path(filename.Data());
-  if (fs::is_empty(path)) {
-    cout << "ERROR: Empty file " << path.c_str() << endl;
-    exit(EXIT_FAILURE);
-  }
-  TGraph *scale = new TGraph(filename.Data());
-  double *xscale = scale->GetX();
-  size_t N = scale->GetN();
   vector<int> runs;
-  for (size_t i = 0; i < N; i++)
-    runs.push_back(xscale[i]);
+  vector<TString>Years;
+  if(Year=="fullRun2")Years={"2016","2017","2018"};
+  else Years.push_back(Year);
+  for(TString year : Years){
+    TString filename = lumifileperyear(year, "run");
+    fs::path path(filename.Data());
+    if (fs::is_empty(path)) {
+      cout << "ERROR: Empty file " << path.c_str() << endl;
+      exit(EXIT_FAILURE);
+    }
+    TGraph *scale = new TGraph(filename.Data());
+    double *xscale = scale->GetX();
+    size_t N = scale->GetN();
+    for (size_t i = 0; i < N; i++)
+      runs.push_back(xscale[i]);
+  }
   return runs;
 }
 
@@ -571,6 +576,25 @@ void PixelUpdateLines(TCanvas *c, TString Year, bool showlumi, vector<int> pixel
   double lastlumi = 0.;
   c->cd();
   size_t index = 0;
+  //Due to the way the coordinates within the Canvas are set, the following steps are required to draw the TPaveText:
+  // Compute the gPad coordinates in TRUE normalized space (NDC)
+  int ix1;
+  int ix2;
+  int iw = gPad->GetWw();
+  int ih = gPad->GetWh();
+  double x1p, y1p, x2p, y2p;
+  gPad->GetPadPar(x1p, y1p, x2p, y2p);
+  ix1 = (Int_t)(iw * x1p);
+  ix2 = (Int_t)(iw * x2p);
+  double wndc = TMath::Min(1., (double)iw / (double)ih);
+  double rw = wndc / (double)iw;
+  double x1ndc = (double)ix1 * rw;
+  double x2ndc = (double)ix2 * rw;
+  // Ratios to convert user space in TRUE normalized space (NDC)
+  double rx1, ry1, rx2, ry2;
+  gPad->GetRange(rx1, ry1, rx2, ry2);
+  double rx = (x2ndc - x1ndc) / (rx2 - rx1);
+    
   for (int pixelupdaterun : pixelupdateruns) {
     double lumi = 0.;
     if (showlumi)
@@ -583,24 +607,6 @@ void PixelUpdateLines(TCanvas *c, TString Year, bool showlumi, vector<int> pixel
     line->SetLineColor(kBlue);
     line->SetLineStyle(9);
     line->Draw();
-    //Due to the way the coordinates within the Canvas are set, the following steps are required to draw the TPaveText:
-    // Compute the gPad coordinates in TRUE normalized space (NDC)
-    int ix1;
-    int ix2;
-    int iw = gPad->GetWw();
-    int ih = gPad->GetWh();
-    double x1p, y1p, x2p, y2p;
-    gPad->GetPadPar(x1p, y1p, x2p, y2p);
-    ix1 = (Int_t)(iw * x1p);
-    ix2 = (Int_t)(iw * x2p);
-    double wndc = TMath::Min(1., (double)iw / (double)ih);
-    double rw = wndc / (double)iw;
-    double x1ndc = (double)ix1 * rw;
-    double x2ndc = (double)ix2 * rw;
-    // Ratios to convert user space in TRUE normalized space (NDC)
-    double rx1, ry1, rx2, ry2;
-    gPad->GetRange(rx1, ry1, rx2, ry2);
-    double rx = (x2ndc - x1ndc) / (rx2 - rx1);
     double _sx;
     // Left limit of the TPaveText
     _sx = rx * (lumi - rx1) + x1ndc;
@@ -620,6 +626,21 @@ void PixelUpdateLines(TCanvas *c, TString Year, bool showlumi, vector<int> pixel
 
     gPad->RedrawAxis();
   }
+
+  if(Year=="fullRun2"){
+    vector<double> runlumi;
+    vector<TString>Years={"2016","2017","2018"};
+    for(TString year: Years)runlumi.push_back(getintegratedlumiuptorun(1000000,year));
+    double lumi = 0.;
+    for(size_t i=0; i<3; ++i){
+      lumi += runlumi.at(i);
+      TLine *line = new TLine(lumi, c->GetUymin(), lumi, c->GetUymax());
+      line->SetLineColor(kViolet);
+      line->SetLineStyle(2);
+      line->Draw();
+    }
+  }
+
   //Drawing in a separate loop to ensure that the labels are drawn on top of the lines
   for (auto label : labels) {
     label->Draw("same");
@@ -632,24 +653,28 @@ void PixelUpdateLines(TCanvas *c, TString Year, bool showlumi, vector<int> pixel
  */
 
 double getintegratedlumiuptorun(int run, TString Year, double min) {
-  TGraph *scale = new TGraph((lumifileperyear(Year, "run")).Data());
-  int Nscale = scale->GetN();
-  double *xscale = scale->GetX();
-  double *yscale = scale->GetY();
-
   double lumi = min;
   int index = -1;
-  for (int j = 0; j < Nscale; j++) {
-    lumi += yscale[j];
-    if (run >= xscale[j]) {
-      index = j;
-      continue;
-    }
-  }
-  lumi = min;
-  for (int j = 0; j < index; j++)
-    lumi += yscale[j] / lumiFactor;
+  vector<TString>Years;
+  if(Year=="fullRun2")Years={"2016","2017","2018"};
+  else Years.push_back(Year);
+  for(TString year : Years){
+    TGraph *scale = new TGraph((lumifileperyear(year, "run")).Data());
+    int Nscale = scale->GetN();
+    double *xscale = scale->GetX();
+    double *yscale = scale->GetY();
 
+    for (int j = 0; j < Nscale; j++) {
+      lumi += yscale[j];
+      if (run >= xscale[j]) {
+	index = j;
+	continue;
+      }
+    }
+    lumi = min;
+    for (int j = 0; j < index; j++)
+      lumi += yscale[j] / lumiFactor;
+  }
   return lumi;
 }
 /*! \fn scalebylumi
@@ -710,11 +735,14 @@ void scalebylumi(TGraphErrors *g, vector<pair<int, double>> lumiIOVpairs) {
 vector<pair<int, double>> lumiperIOV(vector<int> IOVlist, TString Year) {
   size_t N = IOVlist.size();
   vector<pair<int, double>> lumiperIOV;
+  //for debugging:
+  double lumiInput = 0;
+  double lumiOutput = 0.;
   TGraph *scale = new TGraph((lumifileperyear(Year, "run")).Data());
   size_t Nscale = scale->GetN();
   double *xscale = scale->GetX();
   double *yscale = scale->GetY();
-
+  
   size_t i = 0;
   size_t index = 0;
   while (i <= N) {
@@ -726,29 +754,26 @@ vector<pair<int, double>> lumiperIOV(vector<int> IOVlist, TString Year) {
       run = 0;
     for (size_t j = index; j < Nscale; j++) {
       if (run == xscale[j]) {
-        index = j;
-        break;
+	index = j;
+	break;
       } else
-        lumi += yscale[j];
+	lumi += yscale[j];
     }
     if (i == 0)
       lumiperIOV.push_back(make_pair(0, lumi));
-    else
-      lumiperIOV.push_back(make_pair(IOVlist.at(i - 1), lumi));
+      else
+	lumiperIOV.push_back(make_pair(IOVlist.at(i - 1), lumi));
     ++i;
   }
-  //for debugging:
-  double lumiInput = 0;
-  double lumiOutput = 0.;
   for (size_t j = 0; j < Nscale; j++)
     lumiInput += yscale[j];
-  //cout << "Total lumi: " << lumiInput <<endl;
   for (size_t j = 0; j < lumiperIOV.size(); j++)
     lumiOutput += lumiperIOV.at(j).second;
-  //cout << "Total lumi saved for IOVs: " << lumiOutput <<endl;
   if (abs(lumiInput - lumiOutput) > 0.5) {
-    cout << "ERROR: luminosity retrieved for IOVs does not match the one for the runs" << endl
-         << "Please check that all IOV first runs are part of the run-per-lumi file!" << endl;
+    cout << "ERROR: luminosity retrieved for IOVs does not match the one for the runs." << endl
+	 << "Please check that all IOV first runs are part of the run-per-lumi file!" << endl;
+    cout << "Total lumi from lumi-per-run file: " << lumiInput <<endl;
+    cout << "Total lumi saved for IOVs: " << lumiOutput <<endl;
     exit(EXIT_FAILURE);
   }
   return lumiperIOV;
@@ -1061,8 +1086,20 @@ vector<int> pixelupdateruns {271866, 276315,278271, 280928};//UL16
  things above for UL16*/
 // things below for FullRun2
     vector<int> IOVlist = {271866, 272761, 272828, 273158, 273301, 274094, 274954, 274968, 275059, 275635, 276054, 276237, 276315, 276327, 276832, 276952, 277935, 278017, 278271, 279479, 279588, 279681, 279881, 279976, 280187, 280242, 280365, 280928, 281663, 281693, 282649, 282917, 283305, 283681, 284025, 284038, 294929, 294934, 294951, 294954, 294960, 294987, 294990, 295123, 295127, 295200, 295318, 295341, 295348, 295376, 295377, 295381, 295436, 295439, 295447, 295449, 295454, 295457, 295463, 295600, 295634, 295648, 296641, 296663, 296702, 296900, 296966, 297004, 297015, 297047, 297049, 297179, 297224, 297281, 297283, 297429, 297467, 297484, 297494, 297503, 297557, 297598, 297620, 297660, 297670, 298678, 298996, 299062, 299096, 299184, 299316, 299327, 299368, 299370, 299381, 299443, 299480, 299592, 299594, 299649, 300087, 300155, 300233, 300237, 300280, 300364, 300389, 300399, 300459, 300497, 300515, 300538, 300551, 300574, 300636, 300673, 300780, 300806, 300812, 301046, 301417, 302131, 302573, 302635, 303790, 303825, 303998, 304170, 304505, 304661, 304672, 305040, 305113, 305178, 305188, 305204, 305809, 305842, 305898, 305967, 306029, 306042, 306126, 306169, 306417, 306459, 306460, 306936, 313041, 314881, 315257, 315488, 315489, 315506, 315640, 315689, 315690, 315713, 315790, 315800, 315973, 316058, 316060, 316082, 316187, 316199, 316200, 316216, 316218, 316239, 316271, 316361, 316363, 316378, 316456, 316470, 316505, 316559, 316569, 316665, 316758, 317080, 317182, 317212, 317295, 317339, 317382, 317438, 317527, 317661, 317664, 318227, 318712, 319337, 319460, 320377, 320570, 320841, 320854, 320856, 320888, 320916, 320933, 320941, 320980, 321009, 321119, 321134, 321162, 321164, 321261, 321294, 321310, 321393, 321397, 321431, 321461, 321710, 321735, 321773, 321774, 321778, 321820, 321831, 321880, 321960, 322014, 322510, 322603, 323232, 323419, 323423, 323472, 323475, 323693, 323794, 323976, 324202, 324206, 324245, 324729, 324764, 324840, 324999, 325097, 325110};  //FullRun2
-vector<int> pixelupdateruns {271866, 276315,278271, 280928, 290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898, 16758, 317527,317661,317664,318227, 320377};//FullRun2
-    //  vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898};//2017
+vector<int> pixelupdateruns {271866,276315,278271,280928,290543,297281,298653,299443,300389,301046,302131,303790,303998,304911,313041,314881,316758,317475,317485,317527,317661,317664,318227,320377,321831,322510,322603,323232,324245};//FullRun2
+// extracted from SiPixelTemplateDBObject_38T_v16_offline:
+// pre 2016: 1     186500 195360 197749 200961 203368 204601 206446 238341 246866 253914 255655
+    ////  vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898};//2017
+    //vector<int> IOVlist = {314881, 315257, 315488, 315489, 315506, 316239, 316271, 316361, 316363, 316378, 316456,
+    //                       316470, 316505, 316569, 316665, 316758, 317080, 317182, 317212, 317295, 317339, 317382,
+    //                       317438, 317527, 317661, 317664, 318712, 319337, 319460, 320841, 320854, 320856, 320888,
+    //                       320916, 320933, 320980, 321009, 321119, 321134, 321164, 321261, 321294, 321310, 321393,
+    //                       321397, 321431, 321461, 321710, 321735, 321773, 321774, 321778, 321820, 321831, 321880,
+    //                       321960, 322014, 322510, 322603, 323232, 323423, 323472, 323475, 323693, 323794, 323976,
+    //                       324202, 324206, 324245, 324729, 324764, 324840, 324999, 325097, 325110};
+    //vector<int> pixelupdateruns{271866, 276315,278271, 280928, 290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898, 316758, 317527, 317661, 317664, 318227, 320377};  //full Run 2
+    ////vector<int> pixelupdateruns{316758, 317527, 317661, 317664, 318227, 320377};  //2018
+    ////	vector<int> pixelupdateruns {290543, 297281, 298653, 299443, 300389, 301046, 302131, 303790, 303998, 304911, 305898};//2017
 
     cout << "WARNING: Running function with arguments specified in DMRtrends.cc" << endl
          << "If you want to specify the arguments from command line run the macro as follows:" << endl
@@ -1089,11 +1126,11 @@ vector<int> pixelupdateruns {271866, 276315,278271, 280928, 290543, 297281, 2986
 	DMRtrends(IOVlist,
  	{"median", "DrmsNR"},
   	 {"minbias"},
-	"2016", 
-	"/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/alelek/DMR_FullRun2_6Oct_NeededIOVs/", 
-	{"Run2"}, 
-	{kRed}, 
-	"/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/alelek/DMRtrends_FullRun2_6Oct_NeededIOVs", 
+	"fullRun2", 
+	"/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/alelek/DMR_FullRun2_CorrectA-C_andD/", 
+	{ "Prompt", "ReReco", "UL data"}, 
+	{ kBlue, kRed, kGreen+2}, 
+	"/afs/cern.ch/cms/CAF/CMSALCA/ALCA_TRACKERALIGN/data/commonValidation/results/acardini/DMRs/test", 
 	true, 
 	pixelupdateruns,
  	true, 
